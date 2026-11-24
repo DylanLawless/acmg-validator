@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Definitions and allowed values for the ACMG Validator TSV columns.">
+  <title>TSV column guide | ACMG Validator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container site-nav" aria-label="Project links">
+      <a href="/">ACMG Validator</a>
+      <a href="/acmg.html">ACMG criteria</a>
+      <a href="/qem.html">QEM criteria</a>
+      <a href="https://github.com/DylanLawless/acmg-validator" target="_blank" rel="noopener">GitHub source</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="introduction" aria-labelledby="page-title">
+      <h1 id="page-title">TSV column guide</h1>
+      <p>One row describes one ACMG criterion for one variant. A variant normally has 28 rows with the same <code>item_id</code>; information shared by those rows must match. The beginner template starts with the four essential fields, followed by variant identification, evidence, QEM outcomes and review details.</p>
+      <p>Start with the <a href="/">TSV template</a> or <a href="/examples/cohort.tsv" download>eight-variant example</a>. Edit the source file and reimport it to validate changes. A blank cell does not prove that a check was negative or completed. See the <a href="/acmg.html">ACMG criteria</a> and <a href="/qem.html">QEM outcome guide</a> when choosing values.</p>
+    </section>
+    <section class="qem-reference" aria-labelledby="columns-title">
+      <h2 id="columns-title">Column names and meanings</h2>
+      <p><strong>Required</strong> fields are needed for a valid record; <strong>conditional</strong> fields become necessary for specific assessments or exports; <strong>recommended</strong> fields improve interpretation and traceability; <strong>optional</strong> fields may be omitted; and <strong>generated</strong> fields are filled from the rule catalogue or existing data. The four TSV headers that must be present are <code>item_id</code>, <code>criterion</code>, <code>status</code> and <code>evidence_status</code>. A present header is different from a valid value: each populated row still needs an allowed status and evidence state.</p>
+      <p>The beginner template puts essential fields first. The full TSV export also includes generated rule IDs and preservation fields. Column names, rather than their order, determine how files are imported. For each variant, supply either <code>hgvs_c</code> or <code>coordinate</code>; <code>gene</code> is recommended but not mandatory. Missing fields remain missing, not negative evidence. The tool checks that a location is supplied but does not verify its HGVS syntax or reference sequence. On narrow screens, scroll the table horizontally.</p>
+      <div class="table-wrap">
+        <table class="column-definitions">
+          <thead><tr><th scope="col">Column</th><th scope="col">Requirement</th><th scope="col">Meaning</th></tr></thead>
+          <tbody><tr class="column-group"><th colspan="3">Essential fields</th></tr>
+          <tr data-column="item_id"><th scope="row"><code>item_id</code></th><td>Required</td><td>Unique ID for a variant review. Repeat it across the criterion rows for that variant.</td></tr>
+          <tr data-column="criterion"><th scope="row"><code>criterion</code></th><td>Required</td><td>ACMG criterion on this row (for example, PVS1). Use one of the 28 defined codes.</td></tr>
+          <tr data-column="status"><th scope="row"><code>status</code></th><td>Required</td><td>ACMG disposition: <code>not_assessed</code>, <code>accepted</code>, <code>rejected</code>, <code>not_applicable</code> or <code>needs_second_review</code>.</td></tr>
+          <tr data-column="evidence_status"><th scope="row"><code>evidence_status</code></th><td>Required</td><td>Evidence state: <code>not_assessed</code>, <code>present</code>, <code>absent_after_review</code>, <code>not_available</code>, <code>not_applicable</code>, <code>conflicting</code>, <code>insufficient_quality</code> or <code>requires_second_review</code>.</td></tr>
+          </tbody>
+          <tbody><tr class="column-group"><th colspan="3">Variant identification</th></tr>
+          <tr data-column="coordinate"><th scope="row"><code>coordinate</code></th><td>Conditional</td><td>Genomic location, e.g. <code>chr17:43124027</code>. Supply this or <code>hgvs_c</code>. Record the reference build and alleles where relevant to make the variant unambiguous.</td></tr>
+          <tr data-column="hgvs_c"><th scope="row"><code>hgvs_c</code></th><td>Conditional</td><td>Coding DNA HGVS description, e.g. <code>c.68_69del</code>. Supply this or <code>coordinate</code>; identify the reference transcript when known.</td></tr>
+          <tr data-column="gene"><th scope="row"><code>gene</code></th><td>Recommended</td><td>Gene symbol, such as BRCA1, if known. May be blank when the variant is identified by its location.</td></tr>
+          <tr data-column="transcript"><th scope="row"><code>transcript</code></th><td>Recommended</td><td>Reference transcript accession associated with the HGVS description, e.g. <code>NM_007294.4</code>.</td></tr>
+          <tr data-column="genome_build"><th scope="row"><code>genome_build</code></th><td>Recommended</td><td>Reference genome assembly for genomic coordinates, e.g. GRCh38.</td></tr>
+          <tr data-column="hgvs_p"><th scope="row"><code>hgvs_p</code></th><td>Optional</td><td>Protein-level HGVS description, if applicable and known.</td></tr>
+          </tbody>
+          <tbody><tr class="column-group"><th colspan="3">Evidence and interpretation</th></tr>
+          <tr data-column="applied_strength"><th scope="row"><code>applied_strength</code></th><td>Generated</td><td>Strength for this criterion; the catalogue default is supplied when omitted. May be <code>supporting</code>, <code>moderate</code>, <code>strong</code>, <code>very_strong</code> or <code>standalone</code>, subject to criterion restrictions.</td></tr>
+          <tr data-column="source_ref"><th scope="row"><code>source_ref</code></th><td>Conditional</td><td>Traceable ACMG evidence source; required when <code>verified</code> is TRUE. Separate from <code>qem_source_ref</code>.</td></tr>
+          <tr data-column="notes"><th scope="row"><code>notes</code></th><td>Conditional</td><td>Justification required for certain accepted criteria or when changing the default evidence strength.</td></tr>
+          <tr data-column="verified"><th scope="row"><code>verified</code></th><td>Optional</td><td>TRUE or FALSE, default FALSE. TRUE requires a source and a signed-off, named reviewer.</td></tr>
+          <tr data-column="classification"><th scope="row"><code>classification</code></th><td>Optional</td><td>Entered overall interpretation: <code>pathogenic</code>, <code>likely_pathogenic</code>, <code>vus</code>, <code>likely_benign</code> or <code>benign</code>; may be blank.</td></tr>
+          </tbody>
+          <tbody><tr class="column-group"><th colspan="3">QEM evaluation</th></tr>
+          <tr data-column="qem_raw_outcome"><th scope="row"><code>qem_raw_outcome</code></th><td>Optional</td><td>Result of the negative question: <strong>TRUE → 0</strong> confirmed invalidation; <strong>FALSE → 1</strong> no invalidation and verified qualifying evidence; <strong>NA → 0</strong> not conclusively evaluated (default).</td></tr>
+          <tr data-column="qem_source_ref"><th scope="row"><code>qem_source_ref</code></th><td>Conditional</td><td>Traceable source for the QEM rule evaluation; required for conclusive TRUE/FALSE outcomes or when <code>qem_verified</code> is TRUE.</td></tr>
+          <tr data-column="qem_verified"><th scope="row"><code>qem_verified</code></th><td>Conditional</td><td>TRUE is required for a conclusive QEM TRUE/FALSE; otherwise defaults to FALSE. A named, signed-off review is also required.</td></tr>
+          <tr data-column="qem_rule_id"><th scope="row"><code>qem_rule_id</code></th><td>Generated</td><td>Negative QEM rule identifier generated from the criterion and current catalogue. Do not type or rename it in the beginner template.</td></tr>
+          </tbody>
+          <tbody><tr class="column-group"><th colspan="3">Review and clinical context</th></tr>
+          <tr data-column="reviewer"><th scope="row"><code>reviewer</code></th><td>Conditional</td><td>Reviewer name or identifier; required when ACMG evidence is verified or a QEM outcome is conclusive.</td></tr>
+          <tr data-column="review_date"><th scope="row"><code>review_date</code></th><td>Recommended</td><td>Date of review in <code>YYYY-MM-DD</code> form; missing dates produce a warning.</td></tr>
+          <tr data-column="signoff"><th scope="row"><code>signoff</code></th><td>Conditional</td><td>TRUE for a signed-off review; otherwise FALSE (the TSV importer defaults to FALSE if omitted). Required to be TRUE for verified claims.</td></tr>
+          <tr data-column="guideline_basis"><th scope="row"><code>guideline_basis</code></th><td>Recommended</td><td>Guideline version or relevant ClinGen expert-panel specification used in the review; missing values produce a warning.</td></tr>
+          <tr data-column="disease"><th scope="row"><code>disease</code></th><td>Optional</td><td>Disease or condition being investigated.</td></tr>
+          <tr data-column="inheritance"><th scope="row"><code>inheritance</code></th><td>Optional</td><td>Inheritance model considered, e.g. AD or AR.</td></tr>
+          </tbody>
+          <tbody><tr class="column-group"><th colspan="3">Advanced exchange fields</th></tr>
+          <tr data-column="record_json"><th scope="row"><code>record_json</code></th><td>Optional</td><td>Machine-readable variant-level metadata for lossless TSV round-trips; not intended for routine editing.</td></tr>
+          <tr data-column="criterion_json"><th scope="row"><code>criterion_json</code></th><td>Conditional</td><td>Preserves criterion-level details such as mandatory caveat confirmations. For criteria requiring caveats, use canonical JSON or supply this field with the confirmed caveats.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Errors</strong> prevent validated exports. <strong>Warnings</strong> identify information that still needs review but can be retained. QEM exports use the installed versioned rule catalogue, recorded in the bundle metadata. Check rule meanings before importing a TSV created with another release. Structural validity does not establish that every evidence check is complete.</p>
+    </section>
+    <section class="about" aria-labelledby="formats-title">
+      <h2 id="formats-title">Structured records</h2>
+      <p>Canonical JSON is the complete exchange format, including additional fields and caveats. Spreadsheet TSV makes the common fields easy to inspect, but not every nested detail fits into a cell. If an export includes <code>record_json</code> or <code>criterion_json</code>, change the visible columns for ordinary edits; the importer checks that shared values agree and does not use embedded metadata to silently restore a cleared visible field.</p>
+      <p><a href="/">Return to validation</a> or read the <a href="/schemas/acmg-evidence.v1.schema.json" target="_blank" rel="noopener">canonical JSON schema</a>.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container site-footer__inner"><p>ACMG Validator v0.1.9. Open-source research software; not clinical approval.</p></div></footer>
+</body>
+</html>

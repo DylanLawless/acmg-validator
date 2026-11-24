@@ -84,30 +84,38 @@ test('inconsistent TSV values across rows, even a blank, are rejected', () => {
   assert.throws(() => fromTSV(tsv), /inconsistent record_json/);
 });
 
-test('QEM rule-set identifier is pinned in JSON, TSV, template and source bundle', () => {
+test('QEM rule catalogue is pinned in canonical JSON and bundle, not duplicated in TSV', () => {
   assert.equal(fixture().qem_rule_set, QEM_RULE_SET);
-  assert.equal(parseTSV(toTSV(fixture()))[0].qem_rule_set, QEM_RULE_SET);
-  assert.equal(parseTSV(blankTSV())[0].qem_rule_set, QEM_RULE_SET);
-  const input = fixture();
-  input.qem_rule_set = 'switzerlandomics.acmg-evidence-availability.v2';
-  assert.throws(() => normalise(input), /Unknown QEM rule set/);
-  const invalidTsv = changeColumn(toTSV(fixture()), 'qem_rule_set', () => 'outdated.rules.v1');
-  assert.throws(() => fromTSV(invalidTsv), /Unknown QEM rule set/);
+  const fullHeaders = Object.keys(parseTSV(toTSV(fixture()))[0]);
+  const templateHeaders = Object.keys(parseTSV(blankTSV())[0]);
+  assert(!fullHeaders.includes('qem_rule_set'));
+  assert(!templateHeaders.includes('qem_rule_set'));
+  assert(!fullHeaders.includes('qem_rule_set_inferred'));
+  assert(!templateHeaders.includes('qem_rule_set_inferred'));
+  assert.equal(fromTSV(toTSV(fixture())).qem_rule_set, QEM_RULE_SET);
   assert.equal(toQEM(fixture()).metadata.rule_set, QEM_RULE_SET);
+  const changed = fixture();
+  changed.qem_rule_set = 'wrong.catalogue';
+  assert.throws(() => normalise(changed), /Canonical JSON requires QEM rule set/);
+  const missing = fixture();
+  delete missing.qem_rule_set;
+  assert.throws(() => normalise(missing), /Canonical JSON requires QEM rule set/);
+  const extraColumn = blankTSV().split('\n').filter(row => row.length)
+    .map((row, index) => `${index ? 'v' : 'obsolete_version'}\t${row}`).join('\n') + '\n';
+  assert.throws(() => fromTSV(extraColumn), /Unknown TSV column/);
 });
 
-test('versionless legacy files are inspectable, clearly warned and blocked from QEM export', () => {
-  const input = fixture();
-  delete input.qem_rule_set;
-  const record = normalise(input);
-  assert.equal(record.metadata.qem_rule_set_inferred, true);
-  assert(validate(input).issues.some(x => /QEM export is blocked/.test(x.message)));
-  assert.throws(() => toQEM(input), /explicitly confirmed qem_rule_set/);
-  const tsv = toTSV(input);
-  assert.equal(parseTSV(tsv)[0].qem_rule_set, QEM_RULE_SET);
-  assert.equal(parseTSV(tsv)[0].qem_rule_set_inferred, 'true');
-  assert.throws(() => toQEM(fromTSV(tsv)), /explicitly confirmed qem_rule_set/);
-  assert.throws(() => toQEM(record), /explicitly confirmed qem_rule_set/);
+test('review and export sections are visible before import, with disabled outputs', () => {
+  const html = readFileSync(resolve(root, 'web/index.html'), 'utf8');
+  const app = readFileSync(resolve(root, 'web/app.js'), 'utf8');
+  assert.match(html, /<div id="results">/);
+  assert.match(html, /No variants imported yet/);
+  assert.match(html, /No file loaded/);
+  for (const id of ['json', 'tsv', 'html', 'qem']) {
+    assert.match(html, new RegExp(`<button id="${id}" disabled`));
+  }
+  assert(!app.includes("element('results').hidden"));
+  assert.match(app, /element\(id\)\.disabled = true/);
 });
 
 test('browser exports only canonical JSON while CLI retains the legacy adapter', () => {

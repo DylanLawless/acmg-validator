@@ -2,9 +2,9 @@ import { normalise, CRITERIA, emptyCriterion } from './core.js';
 import { QEM_RULE_SET } from './qem-catalogue.js';
 
 export const TSV_COLUMNS = Object.freeze([
-  'item_id', 'qem_rule_set', 'qem_rule_set_inferred', 'gene', 'transcript', 'hgvs_c', 'hgvs_p', 'genome_build', 'disease', 'inheritance',
+  'item_id', 'gene', 'transcript', 'hgvs_c', 'hgvs_p', 'genome_build', 'disease', 'inheritance',
   'guideline_basis', 'reviewer', 'review_date', 'signoff', 'classification', 'criterion', 'status',
-  'evidence_status', 'applied_strength', 'notes', 'source_ref', 'verified', 'qem_rule_id', 'qem_raw_outcome', 'qem_source_ref', 'qem_verified', 'record_json', 'criterion_json'
+  'evidence_status', 'applied_strength', 'notes', 'source_ref', 'verified', 'qem_rule_id', 'qem_raw_outcome', 'qem_source_ref', 'qem_verified', 'record_json', 'criterion_json', 'coordinate'
 ]);
 const encode = value => {
   const s = typeof value === 'string' ? value : String(value ?? '');
@@ -12,7 +12,7 @@ const encode = value => {
 };
 
 /** RFC 4180-style quoted fields, using a tab delimiter. */
-export function parseTSV(value, requiredHeaders = ['item_id', 'gene', 'criterion', 'status', 'evidence_status']) {
+export function parseTSV(value, requiredHeaders = ['item_id', 'criterion', 'status', 'evidence_status']) {
   const text = value.replace(/^\uFEFF/, '');
   const rows = [];
   let row = [], field = '', quoted = false;
@@ -50,7 +50,7 @@ export function toTSV(input) {
     for (const c of criteria) {
       const v = record.variant, ctx = record.case_context, rev = record.review;
       const cells = {
-        item_id: record.item_id, qem_rule_set: data.qem_rule_set, qem_rule_set_inferred: String(data.metadata?.qem_rule_set_inferred === true), gene: v.gene || '', transcript: v.transcript || '', hgvs_c: v.hgvs_c || '', hgvs_p: v.hgvs_p || '', genome_build: v.genome_build || '',
+        item_id: record.item_id, gene: v.gene || '', transcript: v.transcript || '', hgvs_c: v.hgvs_c || '', hgvs_p: v.hgvs_p || '', genome_build: v.genome_build || '', coordinate: v.coordinate || '',
         disease: ctx.disease || '', inheritance: ctx.inheritance || '', guideline_basis: record.guideline_basis,
         reviewer: rev.reviewer || '', review_date: rev.date || '', signoff: rev.signoff === true ? 'true' : 'false',
         classification: record.classification || '', criterion: c.code, status: c.status, evidence_status: c.evidence_status, applied_strength: c.applied_strength,
@@ -64,29 +64,13 @@ export function toTSV(input) {
 export function fromTSV(text) {
   const rows = parseTSV(text), records = new Map(), observed = new Map();
   if (!rows.length) throw new Error('TSV has no evidence rows');
-  const version = rows[0].qem_rule_set;
-  const flag = rows[0].qem_rule_set_inferred?.trim().toLowerCase();
-  if (flag !== undefined && !['true', 'false'].includes(flag)) {
-    throw new Error('qem_rule_set_inferred must be true or false');
-  }
-  if (version === undefined && flag === 'false') {
-    throw new Error('A QEM rule-set version is required when qem_rule_set_inferred is false');
-  }
-  const inferred = version === undefined || flag === 'true';
-  // An omitted version identifies a legacy TSV, not a new, verified v3 input.
-  // If explicitly declared, every row must agree with the current rule catalogue.
-  if (version !== undefined && version !== QEM_RULE_SET) {
-    throw new Error(`Unknown QEM rule set: ${version || '(blank)'}; expected ${QEM_RULE_SET}`);
-  }
+  // TSV is a flat, local entry format. Its QEM rule catalogue is the one
+  // bundled with this release; canonical JSON and QEM exports record its ID.
+  const unsupported = Object.keys(rows[0]).filter(column => !TSV_COLUMNS.includes(column));
+  if (unsupported.length) throw new Error(`Unknown TSV column(s): ${unsupported.join(', ')}`);
   for (const [index, row] of rows.entries()) {
     const item = row.item_id;
     if (!item) throw new Error(`TSV row ${index + 2}: item_id is empty`);
-    if (version !== undefined && row.qem_rule_set !== version) {
-      throw new Error(`TSV row ${index + 2}: inconsistent qem_rule_set`);
-    }
-    if (flag !== undefined && row.qem_rule_set_inferred?.trim().toLowerCase() !== flag) {
-      throw new Error(`TSV row ${index + 2}: inconsistent qem_rule_set_inferred`);
-    }
     let record = records.get(item);
     if (!record) {
       let extra = {};
@@ -102,6 +86,8 @@ export function fromTSV(text) {
         variant: { ...(extra.variant || {}) }, case_context: { ...(extra.case_context || {}) },
         review: { ...(extra.review || {}) }, criteria: []
       };
+      // Missing review sign-off is explicitly false, never implied approval.
+      if (record.review.signoff === undefined) record.review.signoff = false;
       records.set(item, record);
       observed.set(item, new Map());
     }
@@ -126,7 +112,13 @@ export function fromTSV(text) {
       return text === 'true';
     };
     const v = record.variant, ctx = record.case_context, rev = record.review;
-    for (const name of ['gene', 'transcript', 'hgvs_c', 'hgvs_p', 'genome_build']) setShared(name, v, name);
+    for (const name of ['gene', 'transcript', 'hgvs_c', 'hgvs_p', 'genome_build', 'coordinate']) {
+      // A blank visible gene/coordinate clears a previously recorded value,
+      // without inventing an empty property that never existed in the JSON.
+      const preserveAbsence = (name === 'gene' || name === 'coordinate') &&
+        Object.hasOwn(row, name) && row[name] === '' && !Object.hasOwn(v, name);
+      setShared(name, preserveAbsence ? null : v, name);
+    }
     for (const name of ['disease', 'inheritance']) setShared(name, ctx, name);
     setShared('guideline_basis', record, 'guideline_basis');
     setShared('reviewer', rev, 'reviewer');
@@ -134,7 +126,7 @@ export function fromTSV(text) {
     setShared('signoff', rev, 'signoff', value => bool(value, 'signoff'));
     setShared('classification', record, 'classification', value => value || null);
     if (Object.hasOwn(row, 'record_json')) setShared('record_json'); // Compare embedded copies.
-    if (!row.criterion) continue;
+    if (!row.criterion.trim()) throw new Error(`TSV row ${index + 2}: criterion is empty`);
     if (record.criteria.some(c => c.code === row.criterion)) {
       throw new Error(`TSV row ${index + 2}: duplicate ${row.criterion} for ${item}`);
     }
@@ -162,19 +154,27 @@ export function fromTSV(text) {
   return normalise({
     schema: 'switzerlandomics.acmg-evidence.v1',
     rule_set: 'switzerlandomics.acmg-validator.criteria.v1',
-    ...(version === undefined ? {} : { qem_rule_set: version }),
-    ...(inferred ? { metadata: { qem_rule_set_inferred: true } } : {}),
+    qem_rule_set: QEM_RULE_SET,
     records: [...records.values()]
   });
 }
 function emptyCriterionIfKnown(code) {
   try { return emptyCriterion(code); } catch { return { code }; }
 }
+// Beginner entry order is independent of the stable full-export column order.
+// The QEM rule ID is generated from the criterion and its versioned catalogue.
+export const TEMPLATE_COLUMNS = Object.freeze([
+  'item_id', 'criterion', 'status', 'evidence_status',
+  'coordinate', 'hgvs_c', 'gene', 'transcript', 'genome_build', 'hgvs_p',
+  'applied_strength', 'source_ref', 'notes', 'verified', 'classification',
+  'qem_raw_outcome', 'qem_source_ref', 'qem_verified',
+  'reviewer', 'review_date', 'signoff', 'guideline_basis', 'disease', 'inheritance'
+]);
 export function blankTSV() {
-  const cols = TSV_COLUMNS.filter(c => !['record_json', 'criterion_json', 'qem_rule_set_inferred'].includes(c));
+  const cols = TEMPLATE_COLUMNS;
   const rows = [cols.join('\t')];
   for (const c of CRITERIA) {
-    const values = { item_id: 'variant_001', qem_rule_set: QEM_RULE_SET, gene: 'GENE', transcript: '', hgvs_c: 'c.1A>G', genome_build: 'GRCh38', signoff: 'false', criterion: c.code, status: 'not_assessed', evidence_status: 'not_assessed', applied_strength: c.default_strength, verified: 'false', qem_rule_id: emptyCriterion(c.code).qem_rule_id, qem_raw_outcome: 'NA', qem_source_ref: '', qem_verified: 'false' };
+    const values = { item_id: 'variant_001', gene: 'GENE', transcript: '', hgvs_c: 'c.1A>G', genome_build: 'GRCh38', signoff: 'false', criterion: c.code, status: 'not_assessed', evidence_status: 'not_assessed', applied_strength: c.default_strength, verified: 'false', qem_raw_outcome: 'NA', qem_source_ref: '', qem_verified: 'false' };
     rows.push(cols.map(col => encode(values[col])).join('\t'));
   }
   return `${rows.join('\n')}\n`;

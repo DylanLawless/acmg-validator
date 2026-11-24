@@ -1,29 +1,29 @@
-item_id	qem_rule_set	gene	transcript	hgvs_c	hgvs_p	genome_build	disease	inheritance	guideline_basis	reviewer	review_date	signoff	classification	criterion	status	evidence_status	applied_strength	notes	source_ref	verified	qem_rule_id	qem_raw_outcome	qem_source_ref	qem_verified
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PVS1	not_assessed	not_assessed	very_strong			false	criterion_PVS1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PS1	not_assessed	not_assessed	strong			false	criterion_PS1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PS2	not_assessed	not_assessed	strong			false	criterion_PS2_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PS3	not_assessed	not_assessed	strong			false	criterion_PS3_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PS4	not_assessed	not_assessed	strong			false	criterion_PS4_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM1	not_assessed	not_assessed	moderate			false	criterion_PM1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM2	not_assessed	not_assessed	moderate			false	criterion_PM2_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM3	not_assessed	not_assessed	moderate			false	criterion_PM3_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM4	not_assessed	not_assessed	moderate			false	criterion_PM4_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM5	not_assessed	not_assessed	moderate			false	criterion_PM5_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PM6	not_assessed	not_assessed	moderate			false	criterion_PM6_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PP1	not_assessed	not_assessed	supporting			false	criterion_PP1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PP2	not_assessed	not_assessed	supporting			false	criterion_PP2_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PP3	not_assessed	not_assessed	supporting			false	criterion_PP3_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PP4	not_assessed	not_assessed	supporting			false	criterion_PP4_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		PP5	not_assessed	not_assessed	supporting			false	criterion_PP5_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BA1	not_assessed	not_assessed	standalone			false	criterion_BA1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BS1	not_assessed	not_assessed	strong			false	criterion_BS1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BS2	not_assessed	not_assessed	strong			false	criterion_BS2_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BS3	not_assessed	not_assessed	strong			false	criterion_BS3_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BS4	not_assessed	not_assessed	strong			false	criterion_BS4_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP1	not_assessed	not_assessed	supporting			false	criterion_BP1_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP2	not_assessed	not_assessed	supporting			false	criterion_BP2_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP3	not_assessed	not_assessed	supporting			false	criterion_BP3_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP4	not_assessed	not_assessed	supporting			false	criterion_BP4_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP5	not_assessed	not_assessed	supporting			false	criterion_BP5_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP6	not_assessed	not_assessed	supporting			false	criterion_BP6_evidence_unqualified	NA		false
-variant_001	switzerlandomics.acmg-evidence-availability.v3	GENE		c.1A>G		GRCh38						false		BP7	not_assessed	not_assessed	supporting			false	criterion_BP7_evidence_unqualified	NA		false
+item_id	criterion	status	evidence_status	coordinate	hgvs_c	gene	transcript	genome_build	hgvs_p	applied_strength	source_ref	notes	verified	classification	qem_raw_outcome	qem_source_ref	qem_verified	reviewer	review_date	signoff	guideline_basis	disease	inheritance
+variant_001	PVS1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		very_strong			false		NA		false			false			
+variant_001	PS1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	PS2	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	PS3	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	PS4	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	PM1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PM2	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PM3	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PM4	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PM5	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PM6	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		moderate			false		NA		false			false			
+variant_001	PP1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	PP2	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	PP3	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	PP4	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	PP5	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BA1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		standalone			false		NA		false			false			
+variant_001	BS1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	BS2	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	BS3	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	BS4	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		strong			false		NA		false			false			
+variant_001	BP1	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP2	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP3	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP4	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP5	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP6	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			
+variant_001	BP7	not_assessed	not_assessed		c.1A>G	GENE		GRCh38		supporting			false		NA		false			false			

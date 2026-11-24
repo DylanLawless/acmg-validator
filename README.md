@@ -1,6 +1,6 @@
-# ACMG Validator
+# ACMG Validator command-line interface
 
-**Version 0.1.7** · [Release history](CHANGELOG.md)
+**Version 0.1.8** · [Release history](CHANGELOG.md)
 
 **An open evidence schema and validation toolkit for ACMG/AMP variant reviews.**
 
@@ -88,7 +88,7 @@ The `examples/` directory contains only synthetic, non-identifiable data:
 - `completed.json`: a signed-off specimen with documented dispositions for every criterion.
 - `incomplete.json`: deliberately incomplete evidence to demonstrate warnings.
 - `completed.tsv`: the same completed example as a TSV, including round-trip preservation fields.
-- `template.tsv`: a blank synthetic 28-criterion template for spreadsheet entry.
+- `template.tsv`: a blank synthetic 28-criterion template with essential fields first, optional gene, and a `coordinate` alternative to `hgvs_c`.
 - `cohort.json` and `cohort.tsv`: the same eight-variant synthetic dataset, with varying qualifying, invalidated and unassessed evidence checks.
 - `qem-rules.tsv`: human-readable versioned rule IDs, invalidating questions and raw outcome meanings.
 - `quantbayes.tsv`: a pre-generated 8 × 28 binary QEM example, directly readable with `variant_col = "variant_id"`.
@@ -97,7 +97,7 @@ Synthetic attestations and source identifiers are educational placeholders; no r
 
 ## Browser use
 
-Run `npm run start`, then open **http://127.0.0.1:8765/** in a modern browser. Choose a completed JSON/TSV file, drop it into the import area, or select **Load completed example**. Validation results and the canonical JSON, TSV, HTML audit and QEM download controls appear after import. The **Download TSV template** link works before import. You can load a single-variant example or the eight-variant cohort directly, and download the corresponding TSV. QEM answers are read-only in the browser: update `qem_raw_outcome`, `qem_source_ref` and `qem_verified` in the original JSON/TSV file, then reimport it. The page distinguishes structural validity, recorded review coverage and documented QEM-rule outcomes. A valid QEM matrix may still include unassessed `NA` cells.
+Run `npm run start`, then open **http://127.0.0.1:8765/** in a modern browser. Choose a completed JSON/TSV file, drop it into the import area, or select **Load completed example**. The validation and export sections are visible before import, with download buttons disabled until a valid record is loaded. The **Download TSV template** link works before import. The template requires four TSV headers (`item_id`, `criterion`, `status`, `evidence_status`) and either a coding HGVS description or genomic coordinate; an absent gene symbol is allowed but flagged. The full TSV export includes `coordinate` and preserves all supported fields without requiring a row-by-row rule-set version. The local [ACMG criteria](web/acmg.html), [TSV column guide](web/columns.html) and [QEM criteria](web/qem.html) pages explain the rule definitions and input fields; the page links to all three before import. You can load a single-variant example or the eight-variant cohort directly, and download the corresponding TSV. QEM answers are read-only in the browser: update `qem_raw_outcome`, `qem_source_ref` and `qem_verified` in the original JSON/TSV file, then reimport it. The page distinguishes structural validity, recorded review coverage and documented QEM-rule outcomes. A valid QEM matrix may still include unassessed `NA` cells.
 
 If the on-page initialisation warning remains visible, the browser could not load the application modules. Inspect the browser developer console and ensure you are opening the displayed local HTTP address rather than `web/index.html` as a local file.
 
@@ -107,7 +107,7 @@ If the on-page initialisation warning remains visible, the browser could not loa
 node bin/acmg-validator.js qem examples/completed.json --out-dir output/qem
 ```
 
-The QEM bundle contains `matrix.tsv`, `quantbayes.tsv`, `raw_outcomes.tsv`, `rules.json`, `evidence.json`, `run_quantbayes.R` and `README.txt`. The browser packages all seven into one ZIP. The QuantBayes file differs from the original matrix only in its identifier header (`variant_id` versus `item_id`); it preserves the binary cells and rule order exactly. The mapping follows **SGA-QEM-1.0** (`FALSE → 1`, `TRUE → 0`, `NA → 0`) under an explicitly stated documentary rule set; it is **not a pathogenicity assessment**. A `1` requires an explicitly recorded **FALSE** answer to the negative QEM rule, plus a separately documented `qem_source_ref`, `qem_verified` and named signed-off review. ACMG acceptance alone does not establish this answer. Every rule has an explicitly negative question, specified in `src/qem-rules.json`; the local [QEM definitions page](web/qem.html) explains the mapping; see [QEM limitations](docs/qem.md) and the [28-rule polarity audit](docs/qem-rule-audit.md). The input dataset must declare `qem_rule_set: "switzerlandomics.acmg-evidence-availability.v3"` (or the same TSV column); the rule IDs remain unchanged. The revised projection is rule set `switzerlandomics.acmg-evidence-availability.v3`; deprecated PP5/BP6 cannot contribute `1`.
+The QEM bundle contains `matrix.tsv`, `quantbayes.tsv`, `raw_outcomes.tsv`, `rules.json`, `evidence.json`, `run_quantbayes.R` and `README.txt`. The browser packages all seven into one ZIP. The QuantBayes file differs from the original matrix only in its identifier header (`variant_id` versus `item_id`); it preserves the binary cells and rule order exactly. The mapping follows **SGA-QEM-1.0** (`FALSE → 1`, `TRUE → 0`, `NA → 0`) under an explicitly stated documentary rule set; it is **not a pathogenicity assessment**. A `1` requires an explicitly recorded **FALSE** answer to the negative QEM rule, plus a separately documented `qem_source_ref`, `qem_verified` and named signed-off review. ACMG acceptance alone does not establish this answer. Every rule has an explicitly negative question, specified in `src/qem-rules.json`; the local [QEM definitions page](web/qem.html) explains the mapping; see [QEM limitations](docs/qem.md) and the [28-rule polarity audit](docs/qem-rule-audit.md). Canonical JSON declares `qem_rule_set: "switzerlandomics.acmg-evidence-availability.v3"`; TSV uses the installed catalogue, and every QEM bundle includes its versioned rules. The rule IDs remain unchanged. The revised projection is rule set `switzerlandomics.acmg-evidence-availability.v3`; deprecated PP5/BP6 cannot contribute `1`.
 
 ## QEM and QuantBayes
 
@@ -121,6 +121,46 @@ npm run check
 
 The project uses the built-in Node test runner, with GitHub Actions on Windows, macOS and Linux. No npm lockfile or dependency installation is required. Review the MIT licence and publisher details before pushing the repository. Do not commit patient data or real laboratory records. `.gitignore` excludes common local private/output directories, but version control exclusions do not replace a data review before publication.
 
+## QuantBayes example
+
+A variant interpretation is only as reliable as the evidence supporting it. Even when a variant is classified as pathogenic, confidence in the assessment depends on knowing which evidence checks were completed, which remain uncertain or missing, and how thoroughly other candidate variants were evaluated.
+
+We analysed the eight synthetic variants in `examples/cohort.tsv` by exporting the `QEM bundle` and running `run_quantbayes.R` with the [QuantBayes R package](https://cran.r-project.org/web/packages/quantbayes/index.html). Each variant was evaluated against 28 evidence rules, with a score of 1 assigned only where qualifying evidence was verified and no invalidating condition was detected. 
+
+The 95% credible interval reflects uncertainty in estimated evidence sufficiency, not the probability that a variant classification is correct. A variant with verified qualifying evidence for all 28 rules would have a posterior mean close to 1.
+
+| Variant | Verified checks (k/28) | Posterior mean | 95% credible interval |
+|---|---:|---:|---:|
+| synthetic_cohort_001 | 5/28 | 0.200 | 0.080–0.358 |
+| synthetic_cohort_002 | 6/28 | 0.233 | 0.103–0.397 |
+| synthetic_cohort_003 | 4/28 | 0.167 | 0.059–0.317 |
+| synthetic_cohort_004 | 3/28 | 0.133 | 0.039–0.274 |
+| synthetic_cohort_005 | 2/28 | 0.100 | 0.022–0.228 |
+| synthetic_cohort_006 | 2/28 | 0.100 | 0.022–0.228 |
+| synthetic_cohort_007 | 0/28 | 0.033 | 0.001–0.119 |
+| synthetic_cohort_008 | 4/28 | 0.167 | 0.059–0.317 |
+
+The mean posterior evidence sufficiency across the cohort was **0.142**, with a median of **0.150**. The 2.5th to 97.5th percentiles of the eight posterior means were 0.045 to 0.228.
+
+![QuantBayes posterior evidence sufficiency for eight synthetic variants](docs/quantbayes_plot_overlay.png)
+
+This example illustrates why clinical classification and evidence sufficiency should be assessed separately. A variant may be reported as pathogenic while important supporting evidence remains missing, inconclusive or unverified. QuantBayes quantifies the availability of qualifying evidence across the defined rules, helping identify variants that may need further review. **It does not measure the probability that a pathogenicity classification is correct**, and its results depend on the selected rules and their applicability.
+
+For details see:  
+[A Bayesian model for quantifying genomic variant evidence sufficiency in Mendelian disease](https://www.medrxiv.org/content/10.64898/2025.12.02.25341503v1). Quant Group, Ali Saadat, Shweta Pipaliya, Dylan Lawless. *medRxiv* preprint (2025). DOI: 10.1101/2025.12.02.25341503 \\
+[DOI](https://doi.org/10.1101/2025.12.02.25341503) |
+[PDF](https://www.medrxiv.org/content/10.64898/2025.12.02.25341503v2.full.pdf) |
+[R package](https://cran.r-project.org/package=quantbayes) | 
+[Application](https://switzerlandomics.ch/technologies/quantbayes/)
+
+## Contributing
+
+Contributions are welcome. We are particularly interested in working with researchers, clinical geneticists and developers who can test ACMG Validator with their own datasets, assess the accuracy and usefulness of its evidence representation, or extend the approach to other scientific and clinical domains.
+
+We also welcome contributions to interoperability, including mappings to GA4GH standards, HL7 FHIR and electronic health record (EHR) systems. The aim is to make evidence easier to validate, reproduce and exchange while preserving its original meaning.
+
+Please open a GitHub issue to discuss ideas, report problems or propose improvements. Contributions and real-world testing are appreciated.
+
 ## Attribution
 
-**ACMG Validator** by Switzerland Omics. This repository implements an evidence interchange toolkit compatible with the supplied Switzerland Omics ACMG Validator v1.1.0 export structure. ACMG/AMP criteria and associated interpretation guidance originate from their respective scientific publications and ClinGen SVI updates. The software is MIT licensed. The separate SGA-QEM-1.0 standard is a Swiss Genomics Association work and should be cited independently.
+**ACMG Validator** is an independent open-source project by Dylan Lawless. This repository implements an evidence interchange toolkit compatible with the supplied Switzerland Omics ACMG Validator v1.1.0 export structure. ACMG/AMP criteria and associated interpretation guidance originate from their respective scientific publications and ClinGen SVI updates. The software is MIT licensed. The separate SGA-QEM-1.0 standard is a Swiss Genomics Association work and should be cited independently.

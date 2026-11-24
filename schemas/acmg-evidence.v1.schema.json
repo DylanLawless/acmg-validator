@@ -184,9 +184,6 @@
         },
         "variant": {
           "type": "object",
-          "required": [
-            "gene"
-          ],
           "properties": {
             "gene": {
               "type": "string"

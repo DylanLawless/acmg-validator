@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Readable definitions of the 28 ACMG/AMP criteria used by ACMG Validator.">
+  <title>ACMG criteria | ACMG Validator</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/acmg-reference.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container site-nav" aria-label="Project links">
+      <a href="/">ACMG Validator</a>
+      <a href="/columns.html">TSV column guide</a>
+      <a href="/qem.html">QEM criteria</a>
+      <a href="https://github.com/DylanLawless/acmg-validator" target="_blank" rel="noopener">GitHub source</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="introduction" aria-labelledby="page-title">
+      <h1 id="page-title">ACMG criteria</h1>
+      <p>These are the 28 ACMG/AMP evidence criteria recognised by this toolkit. Each code describes a type of evidence that may support a pathogenic or benign interpretation. The table explains the criterion, its default strength and whether additional notes or caveat checks are required.</p>
+      <p>The definitions come from the versioned <a href="/src/criteria.json" target="_blank" rel="noopener">ACMG catalogue (JSON)</a> used by the validator. They are a reference for the implementation, not a substitute for current ClinGen or gene-specific expert-panel guidance. The default strength may need adjustment under the guideline specification you are using. On a narrow screen, scroll the tables sideways to read all columns.</p>
+    </section>
+    <section class="qem-reference" aria-labelledby="pathogenic-title">
+      <h2 id="pathogenic-title">Pathogenic evidence criteria</h2>
+      <p>The PVS, PS, PM and PP groups describe evidence that may support pathogenicity. An accepted criterion requires an appropriate evidence review; it does not automatically establish a QEM result.</p>
+      <div class="table-wrap"><table class="acmg-definitions">
+        <thead><tr><th scope="col">Code</th><th scope="col">Definition</th><th scope="col">Default strength</th><th scope="col">Review requirements</th></tr></thead>
+        <tbody id="pathogenic-rows"></tbody>
+      </table></div>
+    </section>
+    <section class="result-section" aria-labelledby="benign-title">
+      <h2 id="benign-title">Benign evidence criteria</h2>
+      <p>BA, BS and BP describe evidence that may support a benign interpretation. The same requirements for source review, strength justification and caveat confirmations apply where relevant.</p>
+      <div class="table-wrap"><table class="acmg-definitions">
+        <thead><tr><th scope="col">Code</th><th scope="col">Definition</th><th scope="col">Default strength</th><th scope="col">Review requirements</th></tr></thead>
+        <tbody id="benign-rows"></tbody>
+      </table></div>
+      <p id="catalogue-status" role="status">Loading the criteria catalogue…</p>
+      <noscript><p>JavaScript is required to display the catalogue. You can read the <a href="/src/criteria.json">ACMG definitions in JSON</a> instead.</p></noscript>
+    </section>
+    <section class="about" aria-labelledby="interpret-title">
+      <h2 id="interpret-title">Recording results</h2>
+      <p>Use <code>criterion</code> for the code, <code>status</code> for the ACMG review decision and <code>evidence_status</code> for the underlying evidence. Use <code>source_ref</code> and <code>verified</code> to document that ACMG evidence. A separate <code>qem_raw_outcome</code> records whether the negatively worded QEM invalidation check was confirmed, ruled out with verified qualifying evidence, or could not be evaluated.</p>
+      <p>Read the <a href="/columns.html">TSV column guide</a> for all field meanings and the <a href="/qem.html">QEM criteria and outcome meanings</a> for the separate 28 negative rules. <a href="/">Return to validation</a>.</p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container site-footer__inner"><p>ACMG Validator v0.1.9. Open-source research software; not clinical approval.</p></div></footer>
+</body>
+</html>

@@ -38,35 +38,35 @@
         <strong>Choose a JSON or TSV file</strong>
         <span>or drag and drop it here</span>
       </label>
-      <p class="input-guidance"> <a href="/qem.html">Read the QEM criteria and outcome meanings</a> or <a href="/src/qem-rules.json" target="_blank" rel="noopener">view the 28 rule definitions (JSON)</a>.</p>
+      <p class="input-guidance"><a href="/columns.html">Read the TSV column guide</a>, <a href="/acmg.html">read the 28 ACMG criteria</a> or <a href="/src/criteria.json" target="_blank" rel="noopener">view the ACMG catalogue (JSON)</a>. For the separate QEM checks, <a href="/qem.html">read the QEM criteria and outcome meanings</a> or <a href="/src/qem-rules.json" target="_blank" rel="noopener">view the 28 QEM rule definitions (JSON)</a>.</p>
       <p id="feedback" class="feedback" role="alert" aria-live="assertive"></p>
       <p id="app-initialising" class="initialisation-note" role="status">Loading local controls. If this message remains visible, the application could not start. Open the local HTTP address in a current browser and check the developer console.</p>
 
-      <div id="results" hidden>
+      <div id="results">
         <section class="result-section" aria-labelledby="summary-title">
           <div class="section-heading section-heading--summary">
             <div>
               <h2 id="summary-title">2. Review validation</h2>
-              <p id="filename" class="section-description"></p>
+              <p id="filename" class="section-description">Import a JSON or TSV file above to inspect validation results.</p>
             </div>
             <div class="summary__stats" aria-label="Validation totals">
-              <div><strong id="record-count">0</strong><span>variants</span></div>
-              <div><strong id="error-count">0</strong><span>errors</span></div>
-              <div><strong id="warning-count">0</strong><span>warnings</span></div>
+              <div><strong id="record-count">–</strong><span>variants</span></div>
+              <div><strong id="error-count">–</strong><span>errors</span></div>
+              <div><strong id="warning-count">–</strong><span>warnings</span></div>
             </div>
           </div>
-          <p id="validation-status" class="status-line" role="status" aria-live="polite"></p>
-          <p id="review-status" class="status-line review-line" role="status" aria-live="polite"></p>
+          <p id="validation-status" class="status-line pending" role="status" aria-live="polite">No file loaded. Validation will run after import.</p>
+          <p id="review-status" class="status-line review-line" role="status" aria-live="polite">Review coverage will appear here after import.</p>
           <div class="table-wrap">
             <table>
               <thead><tr><th scope="col">Variant</th><th scope="col">Entered classification</th><th scope="col">Criteria addressed</th><th scope="col">QEM outcomes documented</th><th scope="col">Point-based category</th></tr></thead>
-              <tbody id="variant-rows"></tbody>
+              <tbody id="variant-rows"><tr><td colspan="5">No variants imported yet.</td></tr></tbody>
             </table>
           </div>
-          <p id="qem-coverage" class="section-description qem-coverage" role="status"></p>
+          <p id="qem-coverage" class="section-description qem-coverage" role="status">QEM outcome coverage will appear after import.</p>
           <details id="issue-panel" class="findings">
             <summary>Validation findings <span id="issue-count"></span></summary>
-            <div id="issue-list" class="issue-list"></div>
+            <div id="issue-list" class="issue-list"><p>Import a file to see any findings.</p></div>
           </details>
         </section>
 
@@ -74,10 +74,10 @@
           <h2 id="export-title">3. Export</h2>
           <p>Export canonical JSON for a complete structured record, TSV for spreadsheet-based review, an HTML audit or a QEM bundle for downstream analysis. A valid QEM export can still contain NA outcomes; it does not establish that every applicable check was completed or that a clinical conclusion is correct.</p>
           <div class="export-actions">
-            <button id="json" class="button button--primary" type="button">Canonical JSON</button>
-            <button id="tsv" class="button" type="button">TSV</button>
-            <button id="html" class="button" type="button">Audit HTML</button>
-            <button id="qem" class="button" type="button">QEM bundle</button>
+            <button id="json" disabled class="button button--primary" type="button">Canonical JSON</button>
+            <button id="tsv" disabled class="button" type="button">TSV</button>
+            <button id="html" disabled class="button" type="button">Audit HTML</button>
+            <button id="qem" disabled class="button" type="button">QEM bundle</button>
           </div>
         </section>
       </div>
@@ -86,7 +86,7 @@
     <section class="about" aria-labelledby="related-title">
       <h2 id="related-title">QEM and QuantBayes</h2>
       <p>The <a href="https://www.swissgenomicsassociation.ch/pages/sga_qem/" target="_blank" rel="noopener">SGA-QEM standard</a> defines the negative-rule convention. The <a href="https://cran.r-project.org/web/packages/quantbayes/index.html" target="_blank" rel="noopener">QuantBayes R package</a> analyses evidence sufficiency using the binary QEM matrix, with additional <a href="https://switzerlandomics.ch/technologies/quantbayes/" target="_blank" rel="noopener">macOS and Linux tools</a>. Its score depends on the declared rules and their denominator; it is not a measure of clinical validity or proof that all applicable reviews are complete.</p>
-      <p class="input-guidance">QEM rules ask whether qualifying evidence is invalidated or weakened. <strong>TRUE → 0</strong> means a confirmed invalidation; <strong>FALSE → 1</strong> requires a check showing no invalidation and verified qualifying evidence; <strong>NA → 0</strong> means the evaluation is inconclusive or missing. Enter the answer in <code>qem_raw_outcome</code>; keep <code>qem_source_ref</code> and <code>qem_verified</code> distinct from ACMG evidence fields. </p>
+      <p class="input-guidance">QEM rules ask whether qualifying evidence is invalidated or weakened. <strong>TRUE → 0</strong> means a confirmed invalidation; <strong>FALSE → 1</strong> requires a check showing no invalidation and verified qualifying evidence; <strong>NA → 0</strong> means the evaluation is inconclusive or missing. Enter the answer in <code>qem_raw_outcome</code>; keep <code>qem_source_ref</code> and <code>qem_verified</code> distinct from ACMG evidence fields.</p>
     </section>
     <section class="about" aria-labelledby="about-title">
       <h2 id="about-title">Scope</h2>
@@ -96,7 +96,7 @@
 
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <p>ACMG Validator v0.1.7. Open-source research software; not clinical approval.</p>
+      <p>ACMG Validator v0.1.9. Open-source research software; not clinical approval.</p>
     </div>
   </footer>
 </body>

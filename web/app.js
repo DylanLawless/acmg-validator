@@ -49,7 +49,7 @@ function refreshValidation() {
     const assessed = outcomes.filter(outcome => outcome !== 'NA').length;
     documented += assessed;
     qualifying += outcomes.filter(outcome => outcome === 'FALSE').length;
-    return `<tr><td>${escape(record.variant.gene)} ${escape(record.variant.hgvs_c || record.variant.coordinate)}</td>` +
+    return `<tr><td>${escape([record.variant.gene, record.variant.hgvs_c || record.variant.coordinate].filter(Boolean).join(' ') || record.item_id)}</td>` +
       `<td>${escape(displayCategory(record.classification) || 'Not entered')}</td>` +
       `<td>${addressed} / ${CRITERIA.length}</td>` +
       `<td>${assessed} / ${CRITERIA.length}</td>` +
@@ -59,8 +59,6 @@ function refreshValidation() {
   const total = data.records.length * CRITERIA.length;
   element('qem-coverage').textContent = result.summary.errors
     ? 'QEM export is unavailable until validation errors are corrected in the source file.'
-    : data.metadata?.qem_rule_set_inferred === true
-      ? 'QEM export is blocked until the source QEM rule-set version has been explicitly confirmed. Canonical JSON and TSV are still available for correction.'
     : `QEM: ${documented} of ${total} negative-rule outcomes documented, including ${qualifying} qualifying evidence outcomes. ${total - documented} remain NA. Exportable does not mean fully evaluated.`;
 
   element('issue-count').textContent = `(${result.issues.length})`;
@@ -71,15 +69,13 @@ function refreshValidation() {
     : '<p>No issues detected.</p>';
 
   for (const id of ['json', 'tsv', 'html', 'qem']) {
-    element(id).disabled = result.summary.errors > 0 ||
-      (id === 'qem' && data.metadata?.qem_rule_set_inferred === true);
+    element(id).disabled = result.summary.errors > 0;
   }
 }
 
 function show(input, filename) {
   const imported = normalise(input);
   data = imported;
-  element('results').hidden = false;
   element('filename').textContent = filename;
   refreshValidation();
   element('feedback').textContent = '';
@@ -88,7 +84,16 @@ function show(input, filename) {
 function clearImport(message) {
   data = null;
   result = null;
-  element('results').hidden = true;
+  element('filename').textContent = 'Import a JSON or TSV file above to inspect validation results.';
+  for (const id of ['record-count', 'error-count', 'warning-count']) element(id).textContent = '–';
+  element('validation-status').className = 'status-line pending';
+  element('validation-status').textContent = 'No file loaded. Validation will run after import.';
+  element('review-status').textContent = 'Review coverage will appear here after import.';
+  element('variant-rows').innerHTML = '<tr><td colspan="5">No variants imported yet.</td></tr>';
+  element('qem-coverage').textContent = 'QEM outcome coverage will appear after import.';
+  element('issue-count').textContent = '';
+  element('issue-list').innerHTML = '<p>Import a file to see any findings.</p>';
+  for (const id of ['json', 'tsv', 'html', 'qem']) element(id).disabled = true;
   element('feedback').textContent = message;
 }
 

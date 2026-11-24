@@ -53,9 +53,6 @@ export function toQEM(input) {
   const result = validate(input);
   if (result.summary.errors) throw new Error(`Cannot project invalid ACMG records (${result.summary.errors} structural or consistency errors)`);
   const data = result.data;
-  if (data.metadata?.qem_rule_set_inferred === true) {
-    throw new Error('QEM export requires an explicitly confirmed qem_rule_set. Inspect the v3 rules and remove metadata.qem_rule_set_inferred only after verification.');
-  }
   const rules = CRITERIA.map(def => {
     const rule = ruleForCriterion(def.code);
     return {

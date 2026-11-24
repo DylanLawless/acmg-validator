@@ -17,11 +17,15 @@ test('every QEM rule ID is generated and matched to the negative question in the
   for (const [i, row] of template.entries()) {
     const rule = ruleForCriterion(CRITERIA[i].code);
     assert.equal(row.criterion, rule.criterion);
-    assert.equal(row.qem_rule_id, rule.id);
+    assert.equal(row.qem_rule_id, undefined); // generated on import, not entered manually
     assert.match(rule.invalidating_question, /^Is /);
     assert.equal(row.qem_raw_outcome, 'NA');
     assert.equal(row.qem_verified, 'false');
     assert.equal(row.qem_source_ref, '');
+  }
+  const imported = fromTSV(blankTSV());
+  for (const [i, row] of imported.records[0].criteria.entries()) {
+    assert.equal(row.qem_rule_id, ruleForCriterion(CRITERIA[i].code).id);
   }
   assert.deepEqual(QEM_RULES.map(rule => rule.id), CRITERIA.map(x => `criterion_${x.code}_evidence_unqualified`));
 });
@@ -99,22 +103,21 @@ test('upper-case spreadsheet boolean values for review and QEM attestation impor
   assert.equal(validate(input).summary.errors, 0);
 });
 
-test('legacy v0.1.5 conclusive QEM provenance migrates without changing binary cells', () => {
-  const current = complete();
-  const legacy = structuredClone(current);
-  for (const criterion of legacy.records[0].criteria) {
-    delete criterion.qem_rule_id;
-    delete criterion.qem_source_ref;
-    delete criterion.qem_verified;
-  }
-  const restored = normalise(legacy);
-  assert.equal(restored.records[0].criteria[0].qem_verified, true);
-  assert.equal(restored.records[0].criteria[0].qem_source_ref, restored.records[0].criteria[0].source_ref);
-  assert.equal(toQEM(restored).matrix, toQEM(current).matrix);
-  assert.equal(toQEM(restored).raw, toQEM(current).raw);
+test('QEM verification is never inferred from ACMG fields', () => {
+  const input = complete();
+  const original = input.records[0].criteria[0];
+  delete original.qem_source_ref;
+  delete original.qem_verified;
+  const result = normalise(input);
+  const row = result.records[0].criteria[0];
+  assert.equal(row.qem_source_ref, '');
+  assert.equal(row.qem_verified, false);
+  assert.equal(row.source_ref, original.source_ref);
+  assert.equal(row.verified, true);
+  assert(validate(result).summary.errors > 0);
 });
 
-test('explicit new QEM fields are never replaced from legacy ACMG fields', () => {
+test('explicit QEM fields are never replaced from ACMG fields', () => {
   const input = complete();
   const row = input.records[0].criteria[0];
   row.qem_source_ref = '';

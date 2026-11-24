@@ -26,10 +26,6 @@ export function emptyCriterion(code) {
 function normaliseCriterion(raw) {
   const code = raw.code ?? raw.criterion;
   const base = BY_CODE.has(code) ? emptyCriterion(code) : { code };
-  // v0.1.5 used ACMG source_ref/verified for both purposes. Migrate only
-  // explicit conclusive legacy QEM answers, and never override new QEM fields.
-  const isLegacyQem = ['TRUE', 'FALSE'].includes(raw.qem_raw_outcome) &&
-    !Object.hasOwn(raw, 'qem_source_ref') && !Object.hasOwn(raw, 'qem_verified');
   return {
     ...base, ...clone(raw), code,
     status: raw.status ?? base.status,
@@ -40,8 +36,8 @@ function normaliseCriterion(raw) {
     verified: raw.verified ?? base.verified ?? false,
     qem_rule_id: raw.qem_rule_id || base.qem_rule_id || '',
     qem_raw_outcome: raw.qem_raw_outcome ?? base.qem_raw_outcome ?? 'NA',
-    qem_source_ref: raw.qem_source_ref ?? (isLegacyQem ? (raw.source_ref || '') : ''),
-    qem_verified: raw.qem_verified ?? (isLegacyQem && raw.verified === true),
+    qem_source_ref: raw.qem_source_ref ?? base.qem_source_ref ?? '',
+    qem_verified: raw.qem_verified ?? base.qem_verified ?? false,
     caveats: raw.caveats ?? base.caveats ?? []
   };
 }
@@ -64,7 +60,7 @@ function normaliseRecord(value, index, common = {}) {
   const byCode = new Map(supplied.map(c => [c.code, c]));
   const ordered = CRITERIA.map(def => byCode.get(def.code) || emptyCriterion(def.code));
   ordered.push(...supplied.filter(c => !BY_CODE.has(c.code)));
-  const variantKey = [variant.gene, variant.transcript, variant.hgvs_c, variant.genome_build].filter(Boolean).join('|') || 'variant';
+  const variantKey = [variant.gene, variant.transcript, variant.hgvs_c, ...(variant.hgvs_c ? [] : [variant.coordinate]), variant.genome_build].filter(Boolean).join('|') || 'variant';
   const defaultId = `${variantKey}|review_${String(value.variant_index ?? index + 1).padStart(3, '0')}`;
   const preserved = { ...clone(value) };
   for (const key of ['item_id', 'variant', 'case_context', 'review', 'guideline_basis', 'classification', 'criteria', 'criteria_audit', 'genotype_review', 'provenance', 'external_evidence', 'extensions']) delete preserved[key];
@@ -90,15 +86,10 @@ export function normalise(input) {
   if (input.schema === SCHEMA) {
     if (input.rule_set !== catalogue.id) throw new Error(`Unknown criterion rule set: ${input.rule_set || '(missing)'}`);
     if (!Array.isArray(input.records)) throw new Error('The records array is required');
-    if (input.qem_rule_set !== undefined && input.qem_rule_set !== QEM_RULE_SET) {
-      throw new Error(`Unknown QEM rule set: ${String(input.qem_rule_set)}; expected ${QEM_RULE_SET}`);
+    if (input.qem_rule_set !== QEM_RULE_SET) {
+      throw new Error(`Canonical JSON requires QEM rule set ${QEM_RULE_SET}; received ${String(input.qem_rule_set || '(missing)')}`);
     }
-    // Versionless v0.1.6 canonical files remain importable, but the assumption
-    // is retained as a warning until the provenance is explicitly reviewed.
-    const inferred = input.qem_rule_set === undefined;
-    const metadata = { ...(clone(input.metadata || {})) };
-    if (inferred) metadata.qem_rule_set_inferred = true;
-    return { schema: SCHEMA, ...clone(input), qem_rule_set: QEM_RULE_SET, metadata,
+    return { schema: SCHEMA, ...clone(input),
       records: input.records.map((r, i) => normaliseRecord(r, i)) };
   }
   const siteCase = input.schema === 'switzerlandomics.acmg-validator.case.v1' || Array.isArray(input.variants);
@@ -144,21 +135,14 @@ export function scores(record) {
 
 /** Validation is structural and documentary; it does not establish clinical validity. */
 export function validate(input, { strict = false } = {}) {
-  // Check canonical source values before normalisation supplies defaults.
-  // Versionless legacy inputs are allowed only with an explicit migration flag.
-  const sourceIssues = input?.schema === SCHEMA
-    ? schemaIssues(input.qem_rule_set === undefined ? { ...input, qem_rule_set: QEM_RULE_SET } : input)
-    : [];
+  // Validate canonical source before default criterion rows are supplied.
+  const sourceIssues = input?.schema === SCHEMA ? schemaIssues(input) : [];
   const data = normalise(input);
   const issues = [];
   const add = (level, id, path, message) => issues.push({ level, item_id: id, path, message });
   const schemaFailures = new Map([...sourceIssues, ...schemaIssues(data)]
     .map(issue => [`${issue.path}\u0000${issue.message}`, issue]));
   for (const issue of schemaFailures.values()) add('error', 'dataset', issue.path, issue.message);
-  if (data.metadata?.qem_rule_set_inferred === true) {
-    add('warning', 'dataset', 'qem_rule_set',
-      'Legacy file omitted qem_rule_set. Version v3 is provisionally assigned; QEM export is blocked until you confirm the rules by adding the version and removing metadata.qem_rule_set_inferred.');
-  }
   const reviewSummary = { records_with_gaps: 0, records_with_all_dispositions: 0, not_assessed: 0,
     pending: 0, not_applicable: 0, qem_na: 0, qem_documented: 0 };
   const ids = new Set();
@@ -167,7 +151,10 @@ export function validate(input, { strict = false } = {}) {
     if (typeof id !== 'string' || !id.trim()) add('error', String(id), 'item_id', 'A nonempty item_id is required');
     if (ids.has(id)) add('error', id, 'item_id', 'Duplicate item ID');
     ids.add(id);
-    if (!record.variant?.gene || !(record.variant?.hgvs_c || record.variant?.coordinate)) add('error', id, 'variant', 'Gene and either HGVS c. or genomic coordinate are required');
+    if (!text(record.variant?.hgvs_c).trim() && !text(record.variant?.coordinate).trim()) {
+      add('error', id, 'variant', 'A coding HGVS description (hgvs_c) or genomic coordinate is required; a gene symbol alone does not identify a variant');
+    }
+    if (!text(record.variant?.gene).trim()) add('warning', id, 'variant.gene', 'Gene symbol not recorded; gene-specific interpretation may be limited');
     if (!record.variant?.genome_build) add('warning', id, 'variant.genome_build', 'Genome build not recorded');
     if (!record.variant?.transcript) add('warning', id, 'variant.transcript', 'Transcript not recorded');
     if (!record.guideline_basis) add('warning', id, 'guideline_basis', 'Guideline basis not specified');
