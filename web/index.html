@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ACMG Validator is an open-source, local tool for precise, reproducible ACMG evidence records and QEM exports.">
+  <title>ACMG Validator</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container site-nav" aria-label="Project links">
+      <a href="https://github.com/DylanLawless/acmg-validator" target="_blank" rel="noopener">GitHub source</a>
+      <a href="https://github.com/switzerlandomics/acmg-validator" target="_blank" rel="noopener">Organisation repository</a>
+      <a href="https://switzerlandomics.ch/technologies/acmg-validator/" target="_blank" rel="noopener">Manual review tool</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="introduction" aria-labelledby="page-title">
+      <h1 id="page-title">ACMG Validator</h1>
+      <p>To assess a genetic variant reliably, we need to know what evidence was checked, what was found and where the information came from. A blank field does not tell us whether evidence was absent, the result was uncertain or the check was never done. ACMG Validator checks structured JSON or TSV files, keeping verified evidence, confirmed problems and missing information clearly separate. This makes assessments easier to review, share and analyse without losing their original meaning.</p>
+      <p>Import JSON or TSV, inspect consistency checks and export portable records or an experimental QEM matrix. Standardised data can support laboratory and EHR integrations through documented mappings, although this toolkit does not provide direct EHR connectivity. Processing is local, without an account or data upload.</p>
+    </section>
+
+    <section class="workspace" aria-labelledby="workspace-title">
+      <h2 id="workspace-title">1. Prepare and import</h2>
+      <p>Use the TSV template or a JSON record. Each TSV row represents one ACMG criterion for one variant, so the template has 28 rows per variant. Keep the same <code>item_id</code> for each variant's criteria, use a new ID for each additional variant, and edit the source file before reimporting any corrections.</p>
+      <div class="text-actions">
+        <button id="template" type="button" class="text-button">Download TSV template</button>
+        <button id="example" type="button" class="text-button">Load completed example</button>
+        <button id="cohort-example" type="button" class="text-button">Load cohort example (8 variants)</button>
+        <a href="/examples/cohort.tsv" download>Cohort TSV</a>
+      </div>
+      <label id="dropzone" class="dropzone">
+        <input type="file" id="file" accept=".json,.tsv,application/json,text/tab-separated-values" aria-label="Choose an ACMG JSON or TSV file">
+        <strong>Choose a JSON or TSV file</strong>
+        <span>or drag and drop it here</span>
+      </label>
+      <p class="input-guidance"> <a href="/qem.html">Read the QEM criteria and outcome meanings</a> or <a href="/src/qem-rules.json" target="_blank" rel="noopener">view the 28 rule definitions (JSON)</a>.</p>
+      <p id="feedback" class="feedback" role="alert" aria-live="assertive"></p>
+      <p id="app-initialising" class="initialisation-note" role="status">Loading local controls. If this message remains visible, the application could not start. Open the local HTTP address in a current browser and check the developer console.</p>
+
+      <div id="results" hidden>
+        <section class="result-section" aria-labelledby="summary-title">
+          <div class="section-heading section-heading--summary">
+            <div>
+              <h2 id="summary-title">2. Review validation</h2>
+              <p id="filename" class="section-description"></p>
+            </div>
+            <div class="summary__stats" aria-label="Validation totals">
+              <div><strong id="record-count">0</strong><span>variants</span></div>
+              <div><strong id="error-count">0</strong><span>errors</span></div>
+              <div><strong id="warning-count">0</strong><span>warnings</span></div>
+            </div>
+          </div>
+          <p id="validation-status" class="status-line" role="status" aria-live="polite"></p>
+          <p id="review-status" class="status-line review-line" role="status" aria-live="polite"></p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th scope="col">Variant</th><th scope="col">Entered classification</th><th scope="col">Criteria addressed</th><th scope="col">QEM outcomes documented</th><th scope="col">Point-based category</th></tr></thead>
+              <tbody id="variant-rows"></tbody>
+            </table>
+          </div>
+          <p id="qem-coverage" class="section-description qem-coverage" role="status"></p>
+          <details id="issue-panel" class="findings">
+            <summary>Validation findings <span id="issue-count"></span></summary>
+            <div id="issue-list" class="issue-list"></div>
+          </details>
+        </section>
+
+        <section class="result-section" aria-labelledby="export-title">
+          <h2 id="export-title">3. Export</h2>
+          <p>Export canonical JSON for a complete structured record, TSV for spreadsheet-based review, an HTML audit or a QEM bundle for downstream analysis. A valid QEM export can still contain NA outcomes; it does not establish that every applicable check was completed or that a clinical conclusion is correct.</p>
+          <div class="export-actions">
+            <button id="json" class="button button--primary" type="button">Canonical JSON</button>
+            <button id="tsv" class="button" type="button">TSV</button>
+            <button id="html" class="button" type="button">Audit HTML</button>
+            <button id="qem" class="button" type="button">QEM bundle</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="about" aria-labelledby="related-title">
+      <h2 id="related-title">QEM and QuantBayes</h2>
+      <p>The <a href="https://www.swissgenomicsassociation.ch/pages/sga_qem/" target="_blank" rel="noopener">SGA-QEM standard</a> defines the negative-rule convention. The <a href="https://cran.r-project.org/web/packages/quantbayes/index.html" target="_blank" rel="noopener">QuantBayes R package</a> analyses evidence sufficiency using the binary QEM matrix, with additional <a href="https://switzerlandomics.ch/technologies/quantbayes/" target="_blank" rel="noopener">macOS and Linux tools</a>. Its score depends on the declared rules and their denominator; it is not a measure of clinical validity or proof that all applicable reviews are complete.</p>
+      <p class="input-guidance">QEM rules ask whether qualifying evidence is invalidated or weakened. <strong>TRUE → 0</strong> means a confirmed invalidation; <strong>FALSE → 1</strong> requires a check showing no invalidation and verified qualifying evidence; <strong>NA → 0</strong> means the evaluation is inconclusive or missing. Enter the answer in <code>qem_raw_outcome</code>; keep <code>qem_source_ref</code> and <code>qem_verified</code> distinct from ACMG evidence fields. </p>
+    </section>
+    <section class="about" aria-labelledby="about-title">
+      <h2 id="about-title">Scope</h2>
+      <p>This independent open-source toolkit validates and converts existing reviews. For manual entry and assessment of an individual variant, the <a href="https://switzerlandomics.ch/technologies/acmg-validator/" target="_blank" rel="noopener">Switzerland Omics ACMG Validator</a> is available separately. Neither tool substitutes for a qualified clinical interpretation.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>ACMG Validator v0.1.7. Open-source research software; not clinical approval.</p>
+    </div>
+  </footer>
+</body>
+</html>

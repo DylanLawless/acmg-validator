@@ -1,0 +1,285 @@
+{
+  "id": "switzerlandomics.acmg-validator.criteria.v1",
+  "source": "ACMG Validator v1.1.0, Switzerland Omics",
+  "criteria": [
+    {
+      "code": "PVS1",
+      "group": "pathogenic",
+      "default_strength": "very_strong",
+      "description": "Null variant in a gene where loss of function is a known disease mechanism.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": [
+        "Variant is a bona fide null (nonsense, frameshift, canonical \\u00b11/2 splice, initiation codon, single/multi-exon deletion)",
+        "Loss of function is an established disease mechanism for this gene",
+        "Transcript is biologically and clinically relevant (e.g. MANE Select / clinical transcript)",
+        "NMD considered: variant not in the 3\\u2032-most exon or last 50 bp of the penultimate exon (or NMD-escape assessed)",
+        "For splice / large deletion: reading frame and functional-domain impact assessed",
+        "No predicted rescue by alternative start or re-initiation",
+        "Strength graded per the ClinGen PVS1 decision tree where the null context is not full very-strong"
+      ]
+    },
+    {
+      "code": "PS1",
+      "group": "pathogenic",
+      "default_strength": "strong",
+      "description": "Same amino-acid change as a previously established pathogenic variant, regardless of nucleotide change.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PS2",
+      "group": "pathogenic",
+      "default_strength": "strong",
+      "description": "De novo (maternity and paternity confirmed) in a patient with the disease and no family history.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PS3",
+      "group": "pathogenic",
+      "default_strength": "strong",
+      "description": "Well-established functional studies show a damaging effect.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PS4",
+      "group": "pathogenic",
+      "default_strength": "strong",
+      "description": "Prevalence in affected individuals significantly increased over controls.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PM1",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "Located in a mutational hot spot or critical, well-established functional domain without benign variation.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PM2",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "Absent, or at extremely low frequency, in population databases.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": [
+        "Population database(s) named (e.g. gnomAD v4, 1000 Genomes)",
+        "Ancestry-specific frequencies reviewed, not only global frequency",
+        "Read coverage at the site is adequate in the database",
+        "Frequency threshold appropriate to disease prevalence and penetrance",
+        "Applied at Supporting strength per ClinGen SVI (note if Moderate retained)"
+      ]
+    },
+    {
+      "code": "PM3",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "For recessive disorders, detected in trans with a pathogenic variant.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PM4",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "Protein-length change from in-frame indels or stop-loss in a non-repeat region.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PM5",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "Novel missense change at a residue where a different pathogenic missense change was seen before.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PM6",
+      "group": "pathogenic",
+      "default_strength": "moderate",
+      "description": "Assumed de novo without confirmation of maternity and paternity.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PP1",
+      "group": "pathogenic",
+      "default_strength": "supporting",
+      "description": "Co-segregation with disease in multiple affected family members.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PP2",
+      "group": "pathogenic",
+      "default_strength": "supporting",
+      "description": "Missense in a gene with a low rate of benign missense and where missense is a common mechanism.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PP3",
+      "group": "pathogenic",
+      "default_strength": "supporting",
+      "description": "Computational evidence supports a deleterious effect (use one calibrated predictor at calibrated thresholds).",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": [
+        "A single calibrated meta-predictor used (e.g. REVEL, BayesDel), not multiple correlated tools",
+        "Calibrated threshold matched to the applied strength (e.g. ClinGen SVI / Pejaver 2022)",
+        "Not double-counting with PM1, PM5 or PS1",
+        "Splice prediction (e.g. SpliceAI) treated separately"
+      ]
+    },
+    {
+      "code": "PP4",
+      "group": "pathogenic",
+      "default_strength": "supporting",
+      "description": "Patient phenotype or family history highly specific for a single-gene disease.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "PP5",
+      "group": "pathogenic",
+      "default_strength": "supporting",
+      "description": "Reputable source reports pathogenic but evidence is unavailable.",
+      "requires_notes": false,
+      "deprecated": true,
+      "caveats": []
+    },
+    {
+      "code": "BA1",
+      "group": "benign",
+      "default_strength": "standalone",
+      "description": "Allele frequency above the disease-appropriate stand-alone benign threshold in a well-covered population.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": [
+        "Allele frequency exceeds the disease-appropriate stand-alone benign threshold in a well-covered population",
+        "Not a recognised low-penetrance or founder exception (ClinGen)",
+        "Filtering allele frequency (FAF) considered with adequate coverage"
+      ]
+    },
+    {
+      "code": "BS1",
+      "group": "benign",
+      "default_strength": "strong",
+      "description": "Allele frequency greater than expected for the disorder.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BS2",
+      "group": "benign",
+      "default_strength": "strong",
+      "description": "Observed in a healthy adult where full penetrance is expected at an early age.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BS3",
+      "group": "benign",
+      "default_strength": "strong",
+      "description": "Well-established functional studies show no damaging effect.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BS4",
+      "group": "benign",
+      "default_strength": "strong",
+      "description": "Lack of segregation in affected family members.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BP1",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Missense in a gene where only truncating variants cause disease.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BP2",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Observed in trans with a pathogenic variant in a fully penetrant dominant gene, or in cis with a pathogenic variant.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BP3",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "In-frame indel in a repetitive region without known function.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BP4",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Computational evidence supports no impact (use one calibrated predictor at calibrated thresholds).",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": [
+        "A single calibrated predictor used at the calibrated benign threshold",
+        "Not in conflict with splice prediction",
+        "Not double-counting with other computational criteria"
+      ]
+    },
+    {
+      "code": "BP5",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Variant found in a case with an alternate molecular basis for disease.",
+      "requires_notes": true,
+      "deprecated": false,
+      "caveats": []
+    },
+    {
+      "code": "BP6",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Reputable source reports benign but evidence is unavailable.",
+      "requires_notes": false,
+      "deprecated": true,
+      "caveats": []
+    },
+    {
+      "code": "BP7",
+      "group": "benign",
+      "default_strength": "supporting",
+      "description": "Synonymous variant with no predicted splice impact and not highly conserved.",
+      "requires_notes": false,
+      "deprecated": false,
+      "caveats": []
+    }
+  ]
+}

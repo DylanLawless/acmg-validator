@@ -1,0 +1,42 @@
+.
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── SECURITY.md
+├── bin
+│   └── acmg-validator.js
+├── docs
+│   ├── architecture.md
+│   ├── data-formats.md
+│   ├── qem-rule-audit.md
+│   ├── qem.md
+│   ├── screenshot.png
+│   ├── sql-integration.md
+│   └── validation.md
+├── examples
+│   ├── checklist.tsv
+│   ├── completed.json
+│   ├── completed.tsv
+│   ├── incomplete.json
+│   └── template.tsv
+├── package.json
+├── schemas
+│   └── acmg-evidence.v1.schema.json
+├── src
+│   ├── archive.js
+│   ├── core.js
+│   ├── criteria.json
+│   ├── formats.js
+│   ├── qem-rules.json
+│   ├── qem.js
+│   └── report.js
+├── temp
+├── tests
+│   └── core.test.js
+└── web
+    ├── app.js
+    ├── index.html
+    └── style.css
+
+7 directories, 32 files

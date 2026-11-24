@@ -1,0 +1,231 @@
+{
+  "id": "switzerlandomics.acmg-evidence-availability.v3",
+  "polarity": "TRUE_detects_invalidating_or_weakening_signal",
+  "description": "Explicitly evaluated, negatively oriented documentary-evidence rules. ACMG criterion acceptance alone does not establish a QEM raw outcome.",
+  "rules": [
+    {
+      "id": "criterion_PVS1_evidence_unqualified",
+      "criterion": "PVS1",
+      "invalidating_question": "Is the claimed null-variant evidence absent, contradicted by the relevant transcript or loss-of-function mechanism, or inadequately substantiated?",
+      "positive_evidence_target": "Null variant in a gene where loss of function is a known disease mechanism.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PS1_evidence_unqualified",
+      "criterion": "PS1",
+      "invalidating_question": "Is evidence for the same amino-acid change and the established pathogenic comparator absent, contradicted, or inadequately substantiated?",
+      "positive_evidence_target": "Same amino-acid change as a previously established pathogenic variant, regardless of nucleotide change.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PS2_evidence_unqualified",
+      "criterion": "PS2",
+      "invalidating_question": "Is verified de novo evidence with confirmed parental relationships absent, contradicted, or inadequately substantiated?",
+      "positive_evidence_target": "De novo (maternity and paternity confirmed) in a patient with the disease and no family history.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PS3_evidence_unqualified",
+      "criterion": "PS3",
+      "invalidating_question": "Is qualifying functional evidence of a damaging effect absent, conflicting, or insufficiently substantiated?",
+      "positive_evidence_target": "Well-established functional studies show a damaging effect.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PS4_evidence_unqualified",
+      "criterion": "PS4",
+      "invalidating_question": "Is qualifying evidence of enrichment in affected individuals versus controls absent, conflicting, or insufficiently substantiated?",
+      "positive_evidence_target": "Prevalence in affected individuals significantly increased over controls.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM1_evidence_unqualified",
+      "criterion": "PM1",
+      "invalidating_question": "Is qualifying mutational hot-spot or functional-domain evidence, including the benign-variation context, absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Located in a mutational hot spot or critical, well-established functional domain without benign variation.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM2_evidence_unqualified",
+      "criterion": "PM2",
+      "invalidating_question": "Is adequately covered, disease-appropriate population-frequency evidence absent, contradictory, or insufficiently substantiated?",
+      "positive_evidence_target": "Absent, or at extremely low frequency, in population databases.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM3_evidence_unqualified",
+      "criterion": "PM3",
+      "invalidating_question": "Is qualifying evidence that the variant is in trans with a pathogenic allele absent, unconfirmed, or contradicted?",
+      "positive_evidence_target": "For recessive disorders, detected in trans with a pathogenic variant.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM4_evidence_unqualified",
+      "criterion": "PM4",
+      "invalidating_question": "Is qualifying evidence of a protein-length change outside a repeat region absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Protein-length change from in-frame indels or stop-loss in a non-repeat region.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM5_evidence_unqualified",
+      "criterion": "PM5",
+      "invalidating_question": "Is evidence for a different established pathogenic missense change at the same residue absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Novel missense change at a residue where a different pathogenic missense change was seen before.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PM6_evidence_unqualified",
+      "criterion": "PM6",
+      "invalidating_question": "Is evidence supporting an assumed de novo occurrence, without confirmed parental relationships, absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Assumed de novo without confirmation of maternity and paternity.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PP1_evidence_unqualified",
+      "criterion": "PP1",
+      "invalidating_question": "Is qualifying family co-segregation evidence absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Co-segregation with disease in multiple affected family members.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PP2_evidence_unqualified",
+      "criterion": "PP2",
+      "invalidating_question": "Is evidence for the gene-level missense-disease mechanism and low benign missense rate absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Missense in a gene with a low rate of benign missense and where missense is a common mechanism.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PP3_evidence_unqualified",
+      "criterion": "PP3",
+      "invalidating_question": "Is appropriately calibrated computational evidence of a damaging effect absent, conflicting, or insufficiently substantiated?",
+      "positive_evidence_target": "Computational evidence supports a deleterious effect (use one calibrated predictor at calibrated thresholds).",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PP4_evidence_unqualified",
+      "criterion": "PP4",
+      "invalidating_question": "Is evidence of a highly specific phenotype or family history absent, contradicted, or insufficiently documented?",
+      "positive_evidence_target": "Patient phenotype or family history highly specific for a single-gene disease.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_PP5_evidence_unqualified",
+      "criterion": "PP5",
+      "invalidating_question": "Is the primary evidence behind a third-party pathogenicity assertion unavailable or insufficient for independent verification?",
+      "positive_evidence_target": "Reputable source reports pathogenic but evidence is unavailable.",
+      "can_qualify": false,
+      "qualification_note": "Deprecated assertion-only ACMG criterion; original supporting evidence is unavailable by definition, so a reported assertion alone cannot generate QEM 1."
+    },
+    {
+      "id": "criterion_BA1_evidence_unqualified",
+      "criterion": "BA1",
+      "invalidating_question": "Is well-covered population-frequency evidence exceeding a disease-appropriate stand-alone benign threshold absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Allele frequency above the disease-appropriate stand-alone benign threshold in a well-covered population.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BS1_evidence_unqualified",
+      "criterion": "BS1",
+      "invalidating_question": "Is evidence that population frequency exceeds the disease-appropriate maximum credible frequency absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Allele frequency greater than expected for the disorder.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BS2_evidence_unqualified",
+      "criterion": "BS2",
+      "invalidating_question": "Is evidence of an unaffected adult despite expected early, fully penetrant disease absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Observed in a healthy adult where full penetrance is expected at an early age.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BS3_evidence_unqualified",
+      "criterion": "BS3",
+      "invalidating_question": "Is qualifying functional evidence of no damaging effect absent, conflicting, or insufficiently substantiated?",
+      "positive_evidence_target": "Well-established functional studies show no damaging effect.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BS4_evidence_unqualified",
+      "criterion": "BS4",
+      "invalidating_question": "Is qualifying evidence of non-segregation with disease absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Lack of segregation in affected family members.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP1_evidence_unqualified",
+      "criterion": "BP1",
+      "invalidating_question": "Is evidence that the variant is missense in a gene whose established disease mechanism is restricted to truncating variants absent or insufficient?",
+      "positive_evidence_target": "Missense in a gene where only truncating variants cause disease.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP2_evidence_unqualified",
+      "criterion": "BP2",
+      "invalidating_question": "Is qualifying phase evidence (in cis with a pathogenic allele, or in trans in a fully penetrant dominant disorder) absent, contradicted, or insufficient?",
+      "positive_evidence_target": "Observed in trans with a pathogenic variant in a fully penetrant dominant gene, or in cis with a pathogenic variant.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP3_evidence_unqualified",
+      "criterion": "BP3",
+      "invalidating_question": "Is evidence of an in-frame indel in a repetitive region without known functional impact absent, contradicted, or insufficient?",
+      "positive_evidence_target": "In-frame indel in a repetitive region without known function.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP4_evidence_unqualified",
+      "criterion": "BP4",
+      "invalidating_question": "Is appropriately calibrated computational evidence of no damaging effect absent, conflicting, or insufficiently substantiated?",
+      "positive_evidence_target": "Computational evidence supports no impact (use one calibrated predictor at calibrated thresholds).",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP5_evidence_unqualified",
+      "criterion": "BP5",
+      "invalidating_question": "Is evidence for an alternative molecular explanation of the observed disease absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Variant found in a case with an alternate molecular basis for disease.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    },
+    {
+      "id": "criterion_BP6_evidence_unqualified",
+      "criterion": "BP6",
+      "invalidating_question": "Is the primary evidence behind a third-party benignity assertion unavailable or insufficient for independent verification?",
+      "positive_evidence_target": "Reputable source reports benign but evidence is unavailable.",
+      "can_qualify": false,
+      "qualification_note": "Deprecated assertion-only ACMG criterion; original supporting evidence is unavailable by definition, so a reported assertion alone cannot generate QEM 1."
+    },
+    {
+      "id": "criterion_BP7_evidence_unqualified",
+      "criterion": "BP7",
+      "invalidating_question": "Is evidence of a synonymous variant without predicted splice impact or significant conservation absent, contradicted, or insufficiently substantiated?",
+      "positive_evidence_target": "Synonymous variant with no predicted splice impact and not highly conserved.",
+      "can_qualify": true,
+      "qualification_note": "Evidence qualification is attested by the source record, not independently proven by this converter."
+    }
+  ]
+}

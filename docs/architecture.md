@@ -1,0 +1,9 @@
+# Architecture
+
+`src/load-json.js` loads rule catalogues in Node.js and browsers without JSON-module import attributes. `src/criteria.json` is the criterion catalogue taken from the supplied ACMG Validator v1.1.0 code. `src/core.js` handles normalisation, status checks, scoring and website-compatible JSON. `src/formats.js` contains TSV processing. `src/qem-rules.json` contains the explicit versioned, negatively oriented QEM documentary rules, accessed through `src/qem-catalogue.js` by both the core and reference page. `src/qem.js` contains their conservative projection logic. `src/report.js` creates the portable HTML evidence audit. `src/qem-bundle.js` defines the seven QEM and QuantBayes bundle files in one place, shared between the CLI and browser; `src/archive.js` packages these files into a browser ZIP. `bin/acmg-validator.js` handles local file I/O and serves the front end. `web/` provides a drag-and-drop interface and a human-readable QEM reference page; it calls the same pure modules as the CLI, rather than reimplementing the rules.
+
+Nothing calls a remote API, persists records automatically, or communicates with a hospital system. The server binds only to `127.0.0.1`. The web interface opens local files in the browser without uploading them.
+
+To update a rule, modify the catalogue and its tests first, then increment its version if semantics change. Do not quietly alter historical records' declared guideline basis. Keep acceptance/rejection independent from evidence presence and qualified evidence independent from pathogenic direction.
+
+Potential future extensions: signed provenance profiles, schema migration, database and HL7 FHIR Genomics adapters, sample-level evidence, and a validated website/shared report renderer. These are intentionally outside the current contract.

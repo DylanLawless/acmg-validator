@@ -1,0 +1,9 @@
+variant_id	criterion_PVS1_evidence_unqualified	criterion_PS1_evidence_unqualified	criterion_PS2_evidence_unqualified	criterion_PS3_evidence_unqualified	criterion_PS4_evidence_unqualified	criterion_PM1_evidence_unqualified	criterion_PM2_evidence_unqualified	criterion_PM3_evidence_unqualified	criterion_PM4_evidence_unqualified	criterion_PM5_evidence_unqualified	criterion_PM6_evidence_unqualified	criterion_PP1_evidence_unqualified	criterion_PP2_evidence_unqualified	criterion_PP3_evidence_unqualified	criterion_PP4_evidence_unqualified	criterion_PP5_evidence_unqualified	criterion_BA1_evidence_unqualified	criterion_BS1_evidence_unqualified	criterion_BS2_evidence_unqualified	criterion_BS3_evidence_unqualified	criterion_BS4_evidence_unqualified	criterion_BP1_evidence_unqualified	criterion_BP2_evidence_unqualified	criterion_BP3_evidence_unqualified	criterion_BP4_evidence_unqualified	criterion_BP5_evidence_unqualified	criterion_BP6_evidence_unqualified	criterion_BP7_evidence_unqualified
+synthetic_cohort_001	0	1	0	1	1	0	0	0	0	0	0	1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_002	0	0	0	1	1	0	0	1	1	0	0	1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_003	0	0	0	0	0	0	0	1	0	1	0	1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_004	0	0	0	1	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_005	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_006	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0
+synthetic_cohort_007	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+synthetic_cohort_008	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	1	0	1	0	0	0	0	0

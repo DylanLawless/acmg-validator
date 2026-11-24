@@ -1,0 +1,37 @@
+# OS and editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Runtime and package tooling
+node_modules/
+coverage/
+dist/
+.nyc_output/
+*.log
+*.tsbuildinfo
+
+# Private clinical and local output data
+.data/
+local-data/
+private/
+patient-data/
+output/
+outputs/
+*.local.json
+*.local.tsv
+.env
+.env.*
+!.env.example
+
+# Temporary archives / scratch
+*.tmp
+*.bak
+*.zip
+
+# Explicitly keep published synthetic examples and test fixtures
+!examples/**
+!tests/**

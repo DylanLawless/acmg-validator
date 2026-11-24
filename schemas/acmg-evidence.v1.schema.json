@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://switzerlandomics.ch/schemas/acmg-evidence/v1/schema.json",
+  "title": "ACMG Validator evidence dataset v1",
+  "description": "Portable documentary evidence data. The JSON Schema checks structure; the validation engine checks cross-field semantics and completeness. This is not an EHR profile or clinical accreditation.",
+  "type": "object",
+  "required": [
+    "schema",
+    "rule_set",
+    "qem_rule_set",
+    "records"
+  ],
+  "properties": {
+    "schema": {
+      "const": "switzerlandomics.acmg-evidence.v1"
+    },
+    "rule_set": {
+      "const": "switzerlandomics.acmg-validator.criteria.v1"
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "qem_rule_set": {
+      "const": "switzerlandomics.acmg-evidence-availability.v3",
+      "description": "The exact version of the negative QEM rules used to interpret the raw outcomes."
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "criterion": {
+      "type": "object",
+      "required": [
+        "code",
+        "status",
+        "evidence_status",
+        "applied_strength",
+        "notes",
+        "source_ref",
+        "verified",
+        "caveats"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "PVS1",
+            "PS1",
+            "PS2",
+            "PS3",
+            "PS4",
+            "PM1",
+            "PM2",
+            "PM3",
+            "PM4",
+            "PM5",
+            "PM6",
+            "PP1",
+            "PP2",
+            "PP3",
+            "PP4",
+            "PP5",
+            "BA1",
+            "BS1",
+            "BS2",
+            "BS3",
+            "BS4",
+            "BP1",
+            "BP2",
+            "BP3",
+            "BP4",
+            "BP5",
+            "BP6",
+            "BP7"
+          ]
+        },
+        "status": {
+          "enum": [
+            "not_assessed",
+            "accepted",
+            "rejected",
+            "not_applicable",
+            "needs_second_review"
+          ]
+        },
+        "evidence_status": {
+          "enum": [
+            "not_assessed",
+            "present",
+            "absent_after_review",
+            "not_available",
+            "not_applicable",
+            "conflicting",
+            "insufficient_quality",
+            "requires_second_review"
+          ]
+        },
+        "applied_strength": {
+          "enum": [
+            "supporting",
+            "moderate",
+            "strong",
+            "very_strong",
+            "standalone"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        },
+        "source_ref": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "caveats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "item",
+              "confirmed"
+            ],
+            "properties": {
+              "item": {
+                "type": "string"
+              },
+              "confirmed": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "qem_raw_outcome": {
+          "type": "string",
+          "enum": [
+            "TRUE",
+            "FALSE",
+            "NA"
+          ],
+          "description": "Explicit result of the negatively oriented SGA-QEM evidence rule. NA means not evaluated or not conclusively verified. Not inferred from ACMG status."
+        },
+        "qem_rule_id": {
+          "type": "string",
+          "description": "Versioned negatively oriented QEM rule ID; generated from criterion and checked against the catalogue."
+        },
+        "qem_source_ref": {
+          "type": "string",
+          "description": "Source for the evaluation of the negative QEM rule, distinct from the ACMG evidence source."
+        },
+        "qem_verified": {
+          "type": "boolean",
+          "description": "Attests that the negative QEM rule was evaluated and its result reviewed; separate from ACMG evidence verification."
+        }
+      },
+      "additionalProperties": true
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "item_id",
+        "variant",
+        "case_context",
+        "review",
+        "guideline_basis",
+        "classification",
+        "criteria",
+        "genotype_review",
+        "provenance",
+        "external_evidence",
+        "extensions"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "variant": {
+          "type": "object",
+          "required": [
+            "gene"
+          ],
+          "properties": {
+            "gene": {
+              "type": "string"
+            },
+            "transcript": {
+              "type": "string"
+            },
+            "hgvs_c": {
+              "type": "string"
+            },
+            "hgvs_p": {
+              "type": "string"
+            },
+            "genome_build": {
+              "type": "string"
+            },
+            "coordinate": {
+              "type": "string"
+            },
+            "ref": {
+              "type": "string"
+            },
+            "alt": {
+              "type": "string"
+            },
+            "variant_type": {
+              "type": "string"
+            },
+            "zygosity": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        },
+        "case_context": {
+          "type": "object"
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "signoff"
+          ],
+          "properties": {
+            "reviewer": {
+              "type": "string"
+            },
+            "institution": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "format": "date"
+            },
+            "signoff": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": true
+        },
+        "guideline_basis": {
+          "type": "string"
+        },
+        "classification": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pathogenic",
+            "likely_pathogenic",
+            "vus",
+            "likely_benign",
+            "benign",
+            null
+          ]
+        },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/criterion"
+          },
+          "minItems": 28
+        },
+        "genotype_review": {
+          "type": "object"
+        },
+        "provenance": {
+          "type": "object"
+        },
+        "external_evidence": {
+          "type": "object"
+        },
+        "extensions": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

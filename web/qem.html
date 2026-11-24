@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The 28 negatively oriented QEM criteria, their TRUE/FALSE/NA meanings and ACMG Validator evidence fields.">
+  <title>QEM criteria and outcomes | ACMG Validator</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/qem-reference.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="container site-nav" aria-label="Project links">
+      <a href="/">ACMG Validator</a>
+      <a href="https://github.com/DylanLawless/acmg-validator" target="_blank" rel="noopener">GitHub source</a>
+      <a href="https://github.com/switzerlandomics/acmg-validator" target="_blank" rel="noopener">Organisation repository</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="introduction" aria-labelledby="page-title">
+      <h1 id="page-title">QEM criteria and outcomes</h1>
+      <p>Each QEM question asks whether something invalidates or weakens the evidence. Negative wording preserves a consistent meaning: FALSE can produce 1 only when the invalidating condition was checked and not found, and qualifying evidence was verified. Missing information contributes uncertainty, not a positive evidence result. These 28 ACMG-derived documentary rules are experimental and do not independently establish biological or clinical correctness.</p>
+    </section>
+    <section class="qem-reference" aria-labelledby="mapping-title">
+      <h2 id="mapping-title">TRUE, FALSE and NA</h2>
+      <div class="table-wrap">
+        <table class="qem-mapping"><thead><tr><th scope="col">Raw answer</th><th scope="col">QEM</th><th scope="col">Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>TRUE</strong></td><td>0</td><td>The negative check was performed and an invalidating or weakening condition was confirmed.</td></tr>
+            <tr><td><strong>FALSE</strong></td><td>1</td><td>The check was performed, the invalidating condition was not detected, and qualifying evidence was verified and sourced.</td></tr>
+            <tr><td><strong>NA</strong></td><td>0</td><td>The check was not performed, was inconclusive, inapplicable or could not be adequately verified.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>TRUE and NA both produce zero, but for different reasons. The raw outcomes remain available in <code>raw_outcomes.tsv</code>. An unchecked question must not be recorded as FALSE merely because no problem was reported.</p>
+    </section>
+    <section class="result-section" aria-labelledby="fields-title">
+      <h2 id="fields-title">Recording the check</h2>
+      <p>Each evidence TSV row identifies its ACMG <code>criterion</code>, a generated <code>qem_rule_id</code> and its <code>qem_raw_outcome</code>. Conclusive TRUE or FALSE outcomes require a <code>qem_source_ref</code>, <code>qem_verified</code> and a named, signed-off review. The separate <code>source_ref</code> and <code>verified</code> fields describe ACMG evidence, not the QEM evaluation. Acceptance of an ACMG criterion alone never establishes QEM FALSE.</p>
+      <p>For example, <code>criterion_PVS1_evidence_unqualified</code> asks whether the null-variant evidence is absent, contradicted or insufficiently substantiated. Documented verification that it is not invalidated permits FALSE → 1; unchecked or uncertain evidence remains NA → 0.</p>
+      <div class="text-actions">
+        <a href="/examples/qem-rules.tsv" download>Download QEM rule reference TSV</a>
+        <a href="/src/qem-rules.json" target="_blank" rel="noopener">View the 28 rule definitions (JSON)</a>
+        <a href="/">Return to validation</a>
+      </div>
+    </section>
+    <section class="result-section" aria-labelledby="definitions-title">
+      <h2 id="definitions-title">The 28 invalidating questions</h2>
+      <p>These questions are loaded from the same versioned catalogue used for export. Deprecated PP5 and BP6 assertion-only criteria cannot produce a qualifying QEM value of 1.</p>
+      <p id="rule-set-label">Loading rule definitions…</p>
+      <div class="table-wrap"><table class="qem-definitions"><thead><tr><th scope="col">Criterion</th><th scope="col">QEM rule ID</th><th scope="col">Invalidating question (TRUE)</th><th scope="col">Qualifying evidence sought</th></tr></thead><tbody id="rule-rows"></tbody></table></div>
+      <noscript><p>JavaScript is required to display the catalogue on this page. The linked JSON and TSV rule files contain the same definitions.</p></noscript>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container site-footer__inner"><p>ACMG Validator v0.1.7. Open-source research software; not clinical approval.</p></div></footer>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "name": "acmg-validator",
+  "version": "0.1.7",
+  "description": "Open-source ACMG/AMP evidence schema, local validation, TSV/JSON conversion and experimental SGA-QEM projection",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "acmg-validator": "./bin/acmg-validator.js"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "node bin/acmg-validator.js serve",
+    "check": "node --check src/load-json.js && node --check src/schema-check.js && node --check src/core.js && node --check src/formats.js && node --check src/qem.js && node --check src/qem-catalogue.js && node --check web/qem-reference.js && node --check src/qem-bundle.js && node --check src/report.js && node --check src/archive.js && node --check web/app.js && npm test"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "schemas/",
+    "examples/",
+    "docs/",
+    "web/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "ACMG",
+    "genomics",
+    "variant-interpretation",
+    "clinical-genetics",
+    "evidence",
+    "TSV",
+    "JSON",
+    "QEM"
+  ]
+}
