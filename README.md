@@ -101,7 +101,7 @@ Run `npm run start`, then open **http://127.0.0.1:8765/** in a modern browser. C
 
 If the on-page initialisation warning remains visible, the browser could not load the application modules. Inspect the browser developer console and ensure you are opening the displayed local HTTP address rather than `web/index.html` as a local file.
 
-## Experimental SGA-QEM output
+## SGA-QEM output
 
 ```bash
 node bin/acmg-validator.js qem examples/completed.json --out-dir output/qem
@@ -113,13 +113,6 @@ The QEM bundle contains `matrix.tsv`, `quantbayes.tsv`, `raw_outcomes.tsv`, `rul
 
 The [SGA-QEM standard](https://www.swissgenomicsassociation.ch/pages/sga_qem/) specifies negatively oriented evidence checks. A QEM `1` requires a documented FALSE outcome with qualifying evidence; TRUE and NA both map to `0` for different reasons. The [QuantBayes R package](https://cran.r-project.org/web/packages/quantbayes/index.html) can estimate evidence sufficiency on the fixed binary matrix. See [QuantBayes tools for macOS and Linux](https://switzerlandomics.ch/technologies/quantbayes/) and [methodological limitations](docs/quantbayes.md). A higher matrix score does **not** prove that all applicable criteria were checked or that a clinical interpretation is correct.
 
-## Testing and publication
-
-```bash
-npm run check
-```
-
-The project uses the built-in Node test runner, with GitHub Actions on Windows, macOS and Linux. No npm lockfile or dependency installation is required. Review the MIT licence and publisher details before pushing the repository. Do not commit patient data or real laboratory records. `.gitignore` excludes common local private/output directories, but version control exclusions do not replace a data review before publication.
 
 ## QuantBayes example
 
@@ -152,6 +145,14 @@ For details see:
 [PDF](https://www.medrxiv.org/content/10.64898/2025.12.02.25341503v2.full.pdf) |
 [R package](https://cran.r-project.org/package=quantbayes) | 
 [Application](https://switzerlandomics.ch/technologies/quantbayes/)
+
+## Testing and publication
+
+```bash
+npm run check
+```
+
+The project uses the built-in Node test runner, with GitHub Actions on Windows, macOS and Linux. No npm lockfile or dependency installation is required. Review the MIT licence and publisher details before pushing the repository. Do not commit patient data or real laboratory records. `.gitignore` excludes common local private/output directories, but version control exclusions do not replace a data review before publication.
 
 ## Contributing
 

@@ -11,14 +11,19 @@
 │   ├── data-formats.md
 │   ├── qem-rule-audit.md
 │   ├── qem.md
+│   ├── quantbayes.md
+│   ├── quantbayes_plot_overlay.png
 │   ├── screenshot.png
 │   ├── sql-integration.md
 │   └── validation.md
 ├── examples
-│   ├── checklist.tsv
+│   ├── cohort.json
+│   ├── cohort.tsv
 │   ├── completed.json
 │   ├── completed.tsv
 │   ├── incomplete.json
+│   ├── qem-rules.tsv
+│   ├── quantbayes.tsv
 │   └── template.tsv
 ├── package.json
 ├── schemas
@@ -28,15 +33,29 @@
 │   ├── core.js
 │   ├── criteria.json
 │   ├── formats.js
+│   ├── load-json.js
+│   ├── qem-bundle.js
+│   ├── qem-catalogue.js
 │   ├── qem-rules.json
 │   ├── qem.js
-│   └── report.js
+│   ├── report.js
+│   └── schema-check.js
 ├── temp
 ├── tests
-│   └── core.test.js
+│   ├── core.test.js
+│   ├── qem-fields.test.js
+│   ├── quantbayes.test.js
+│   ├── reference-pages.test.js
+│   ├── release.test.js
+│   └── variant-location.test.js
 └── web
+    ├── acmg-reference.js
+    ├── acmg.html
     ├── app.js
+    ├── columns.html
     ├── index.html
+    ├── qem-reference.js
+    ├── qem.html
     └── style.css
 
-7 directories, 32 files
+7 directories, 51 files

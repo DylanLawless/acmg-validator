@@ -127,7 +127,7 @@ test('browser exports only canonical JSON while CLI retains the legacy adapter',
   assert.doesNotMatch(html, /id="site-json"|Website JSON/);
   assert.doesNotMatch(app, /toSiteJSON|site-json/);
   assert.match(cli, /'site-json'/);
-  assert.match(html, new RegExp(`v${version.replaceAll('.', '\\.')}`));
+  assert(!html.includes(`v${version}`), 'Displayed version should not be hard-coded in HTML');
   for (const url of ['https://cran.r-project.org/web/packages/quantbayes/index.html',
     'https://switzerlandomics.ch/technologies/quantbayes/',
     'https://www.swissgenomicsassociation.ch/pages/sga_qem/']) {
@@ -140,4 +140,25 @@ test('R runner prints overlay interactively and saves nothing unless user uncomm
   assert.match(QUANTBAYES_RUNNER, /# write\.table\(res\$variants/);
   assert.match(QUANTBAYES_RUNNER, /# write\.table\(data\.frame\(metric = names\(res\$global\)/);
   assert.doesNotMatch(QUANTBAYES_RUNNER, /^(?!\s*#).*\b(?:write\.table|write\.csv|dir\.create|ggsave)\s*\(/m);
+});
+
+
+test('all page footers use a single package-manifest display name and version', () => {
+  const packageInfo = JSON.parse(readFileSync(resolve(root, 'package.json'), 'utf8'));
+  assert.equal(typeof packageInfo.displayName, 'string');
+  assert(packageInfo.displayName.trim());
+  assert.match(packageInfo.version, /^\d+\.\d+\.\d+$/);
+  const client = readFileSync(resolve(root, 'web/site-meta.js'), 'utf8');
+  const server = readFileSync(resolve(root, 'bin/acmg-validator.js'), 'utf8');
+  assert.match(client, /fetch\('\/package\.json'\)/);
+  assert.match(client, /displayName, version/);
+  for (const page of ['index.html', 'columns.html', 'qem.html', 'acmg.html']) {
+    const html = readFileSync(resolve(root, 'web', page), 'utf8');
+    assert.match(html, /<script type="module" src="\/site-meta\.js"><\/script>/);
+    assert.match(html, /<footer[^>]*>[\s\S]*data-project-meta[\s\S]*<\/footer>/);
+    assert.doesNotMatch(html, /ACMG Validator v\d+\.\d+\.\d+/);
+    assert(!html.includes(packageInfo.displayName), `Duplicate display name in ${page}`);
+  }
+  assert.match(server, /\['\/site-meta\.js','web\/site-meta\.js'\]/);
+  assert.match(server, /\['\/package\.json','package\.json'\]/);
 });

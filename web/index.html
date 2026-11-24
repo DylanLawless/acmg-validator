@@ -6,13 +6,13 @@
   <meta name="description" content="ACMG Validator is an open-source, local tool for precise, reproducible ACMG evidence records and QEM exports.">
   <title>ACMG Validator</title>
   <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/site-meta.js"></script>
   <script type="module" src="/app.js"></script>
 </head>
 <body>
   <header class="site-header">
     <nav class="container site-nav" aria-label="Project links">
       <a href="https://github.com/DylanLawless/acmg-validator" target="_blank" rel="noopener">GitHub source</a>
-      <a href="https://github.com/switzerlandomics/acmg-validator" target="_blank" rel="noopener">Organisation repository</a>
       <a href="https://switzerlandomics.ch/technologies/acmg-validator/" target="_blank" rel="noopener">Manual review tool</a>
     </nav>
   </header>
@@ -85,8 +85,9 @@
 
     <section class="about" aria-labelledby="related-title">
       <h2 id="related-title">QEM and QuantBayes</h2>
-      <p>The <a href="https://www.swissgenomicsassociation.ch/pages/sga_qem/" target="_blank" rel="noopener">SGA-QEM standard</a> defines the negative-rule convention. The <a href="https://cran.r-project.org/web/packages/quantbayes/index.html" target="_blank" rel="noopener">QuantBayes R package</a> analyses evidence sufficiency using the binary QEM matrix, with additional <a href="https://switzerlandomics.ch/technologies/quantbayes/" target="_blank" rel="noopener">macOS and Linux tools</a>. Its score depends on the declared rules and their denominator; it is not a measure of clinical validity or proof that all applicable reviews are complete.</p>
-      <p class="input-guidance">QEM rules ask whether qualifying evidence is invalidated or weakened. <strong>TRUE → 0</strong> means a confirmed invalidation; <strong>FALSE → 1</strong> requires a check showing no invalidation and verified qualifying evidence; <strong>NA → 0</strong> means the evaluation is inconclusive or missing. Enter the answer in <code>qem_raw_outcome</code>; keep <code>qem_source_ref</code> and <code>qem_verified</code> distinct from ACMG evidence fields.</p>
+      <p> A variant interpretation is only as reliable as the evidence supporting it. Even when a variant is classified as pathogenic, confidence in the assessment depends on knowing which evidence checks were completed, which remain uncertain or missing, and how thoroughly other candidate variants were evaluated.
+      The <a href="https://www.swissgenomicsassociation.ch/pages/sga_qem/" target="_blank" rel="noopener">SGA-QEM standard</a> defines the negative-rule convention. The <a href="https://cran.r-project.org/web/packages/quantbayes/index.html" target="_blank" rel="noopener">QuantBayes R package</a> analyses evidence sufficiency using the binary QEM matrix, with additional <a href="https://switzerlandomics.ch/technologies/quantbayes/" target="_blank" rel="noopener">macOS and Linux tools</a>. Its score depends on the declared rules and their denominator; it is not a measure of clinical validity or proof that all applicable reviews are complete.</p>
+      <p class="input-guidance">QEM rules ask whether qualifying evidence is invalidated or weakened. <strong>TRUE → 0</strong> means a confirmed invalidation; <strong>FALSE → 1</strong> requires a check showing no invalidation and verified qualifying evidence; <strong>NA → 0</strong> means the evaluation is inconclusive or missing. Enter the answer in <code>qem_raw_outcome</code>; keep <code>qem_source_ref</code> and <code>qem_verified</code> distinct from ACMG evidence fields. For details, see: <a href="https://www.medrxiv.org/content/10.1101/2025.12.02.25341503v1">A Bayesian model for quantifying genomic variant evidence sufficiency in Mendelian disease</a>. Quant Group et al., <em>medRxiv</em> preprint (2025). <a href="https://doi.org/10.1101/2025.12.02.25341503">DOI: 10.1101/2025.12.02.25341503</a>.</p>
     </section>
     <section class="about" aria-labelledby="about-title">
       <h2 id="about-title">Scope</h2>
@@ -96,7 +97,7 @@
 
   <footer class="site-footer">
     <div class="container site-footer__inner">
-      <p>ACMG Validator v0.1.9. Open-source research software; not clinical approval.</p>
+      <p><span data-project-meta></span>Open-source research software; not clinical approval.</p>
     </div>
   </footer>
 </body>
