@@ -1,7 +1,9 @@
 # ACMG Validator CLI
 
 **Version 0.1.9** · [Release history](CHANGELOG.md)  
-[![DOI](https://zenodo.org/badge/github/1470149607.svg)](https://zenodo.org/badge/latestdoi/1470149607)
+
+<!-- [![DOI](https://zenodo.org/badge/github/1470149607.svg)](https://zenodo.org/badge/latestdoi/1470149607) -->
+[![DOI](https://zenodo.org/badge/github/1470149607.svg)](https://zenodo.org/records/24584209)
 
 An open evidence schema and validation toolkit for ACMG/AMP variant reviews. Import, validate and convert structured evidence records in JSON or tab-separated values (TSV), for one variant or an entire cohort. The toolkit keeps evidence that is present, absent after review, conflicting, unassessed or not applicable clearly distinct.
 
@@ -197,7 +199,7 @@ https://doi.org/10.5281/zenodo.24584209
 ### BibTeX
 
 ```bibtex
-@software{lawless2026acmgvalidator,
+@software{lawless2026acmgvalidatorcli,
   author    = {Lawless, Dylan},
   title     = {{ACMG Validator CLI}: Structured {ACMG/AMP}
                Variant Evidence Validation and Exchange},
