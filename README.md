@@ -199,14 +199,16 @@ https://doi.org/10.5281/zenodo.24584209
 ### BibTeX
 
 ```bibtex
-@software{lawless2026acmgvalidatorcli,
-  author    = {Lawless, Dylan},
-  title     = {{ACMG Validator CLI}: Structured {ACMG/AMP}
-               Variant Evidence Validation and Exchange},
-  year      = {2026},
-  version   = {0.1.9},
-  publisher = {Zenodo},
-  doi       = {10.5281/zenodo.24584209},
-  url       = {https://doi.org/10.5281/zenodo.24584209}
+@misc{lawless2026acmgvalidatorcli,
+  author       = {Lawless, Dylan},
+  title        = {{ACMG Validator CLI}: Structured {ACMG/AMP} Variant Evidence Validation and Exchange},
+  year         = {2026},
+  howpublished = {Zenodo, version 0.1.9},
+  version      = {0.1.9},
+  doi          = {10.5281/zenodo.24584209},
+  url          = {https://github.com/DylanLawless/acmg-validator},
+  note         = {doi: 10.5281/zenodo.24584209}
 }
 ```
+
+
