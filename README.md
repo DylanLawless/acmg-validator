@@ -1,6 +1,7 @@
 # ACMG Validator CLI
 
-**Version 0.1.9** · [Release history](CHANGELOG.md)
+**Version 0.1.9** · [Release history](CHANGELOG.md)  
+[![DOI](https://zenodo.org/badge/github/1470149607.svg)](https://zenodo.org/badge/latestdoi/1470149607)
 
 An open evidence schema and validation toolkit for ACMG/AMP variant reviews. Import, validate and convert structured evidence records in JSON or tab-separated values (TSV), for one variant or an entire cohort. The toolkit keeps evidence that is present, absent after review, conflicting, unassessed or not applicable clearly distinct.
 
@@ -184,3 +185,26 @@ We also welcome interoperability work, including mappings to GA4GH standards, HL
 
 **ACMG Validator CLI** is an open-source project. It provides an evidence interchange toolkit compatible with the Switzerland Omics ACMG Validator v1.1.0 export structure. ACMG/AMP criteria and interpretation guidance originate from the respective scientific publications and ClinGen SVI updates. The software is MIT licensed. The separate [SGA-QEM-1.0 standard](https://www.swissgenomicsassociation.ch/pages/sga_qem/) is a Swiss Genomics Association work and should be cited independently.
 
+## Citation
+
+If you use ACMG Validator CLI in your research, please cite the
+corresponding software release.
+
+Lawless D. *ACMG Validator CLI: Structured ACMG/AMP Variant Evidence
+Validation and Exchange*. Version 0.1.9. Zenodo. 2026.
+https://doi.org/10.5281/zenodo.24584209
+
+### BibTeX
+
+```bibtex
+@software{lawless2026acmgvalidator,
+  author    = {Lawless, Dylan},
+  title     = {{ACMG Validator CLI}: Structured {ACMG/AMP}
+               Variant Evidence Validation and Exchange},
+  year      = {2026},
+  version   = {0.1.9},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.24584209},
+  url       = {https://doi.org/10.5281/zenodo.24584209}
+}
+```

@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ACMG Validator CLI: Structured ACMG/AMP Variant Evidence Validation and Exchange"
+type: software
+authors:
+  - given-names: Dylan
+    family-names: Lawless
+version: "0.1.9"
+date-released: "2026-11-24"
+doi: "10.5281/zenodo.24584209"
+license: MIT
+repository-code: "https://github.com/DylanLawless/acmg-validator"
+url: "https://github.com/DylanLawless/acmg-validator"
+keywords:
+  - genomics
+  - clinical genetics
+  - ACMG/AMP
+  - variant interpretation
+  - evidence validation
+  - evidence sufficiency
